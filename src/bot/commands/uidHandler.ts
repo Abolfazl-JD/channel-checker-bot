@@ -1,6 +1,7 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { getUserInfo } from "../../services/getUserInfo";
 import { consts } from "../../utils/consts";
 import { createInviteLink } from "../helpers/createInviteLink";
 
@@ -33,7 +34,8 @@ export async function uidHandler(
       return;
     }
 
-    if (!uidUser) {
+    const lbankUserInfo = await getUserInfo(uid);
+    if (!lbankUserInfo || lbankUserInfo?.result === "false") {
       await ctx.reply(i18n(lang, "uidDoesntExist"));
       return;
     }

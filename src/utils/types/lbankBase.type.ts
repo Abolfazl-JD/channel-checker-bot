@@ -1,5 +1,5 @@
 export type TlbankBase = {
-  result: boolean;
+  result: "true" | "false";
   ts: number;
   error_code: number;
 };
