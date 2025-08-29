@@ -1,0 +1,134 @@
+#!/bin/bash
+git pull
+
+# Build the project
+rm -rf dist
+sleep 2
+if ! npm run build; then
+  echo "Build failed, exiting..."
+  exit 1
+fi
+
+echo "build done"
+
+# Get NAME from first arg or prompt
+if [ -n "$1" ]; then
+  NAME="$1"
+else
+  read -p "NAME( no white spaces): " NAME
+fi
+
+if [ -z "$NAME" ]; then
+  echo "NAME is required"
+  exit 1
+fi
+
+ENV_FILE=".env.$NAME"
+LOG_DIR="logs"
+LOG_FILE="$LOG_DIR/$NAME.log"
+
+# Create logs directory if missing
+mkdir -p "$LOG_DIR"
+
+# Handle .env file existence
+if [ -f "$ENV_FILE" ]; then
+  echo "$ENV_FILE already exists. Content:"
+  echo "----------------------------------------"
+  cat "$ENV_FILE"
+  echo "----------------------------------------"
+  read -p "Do you want to override it? (y/N): " CONFIRM
+  case "$CONFIRM" in
+    [yY][eE][sS]|[yY])
+      echo "Overriding $ENV_FILE..."
+      ;;
+    *)
+      echo "Skipping creation."
+      echo ""
+      echo "Continuing with existing env file..."
+      goto_env_ready=true
+      ;;
+  esac
+fi
+
+if [ "$goto_env_ready" != true ]; then
+  # Prompt for required inputs with validation
+  while [ -z "$BOT_TOKEN" ]; do
+    read -p "BOT_TOKEN: " BOT_TOKEN
+    [ -z "$BOT_TOKEN" ] && echo "BOT_TOKEN is required"
+  done
+
+  while [ -z "$GROUP_ID" ]; do
+    read -p "GROUP_ID: " GROUP_ID
+    [ -z "$GROUP_ID" ] && echo "GROUP_ID is required"
+  done
+
+  while [ -z "$API_KEY" ]; do
+    read -p "API_KEY: " API_KEY
+    [ -z "$API_KEY" ] && echo "API_KEY is required"
+  done
+
+  while [ -z "$API_SECRET" ]; do
+    read -p "API_SECRET: " API_SECRET
+    [ -z "$API_SECRET" ] && echo "API_SECRET is required"
+  done
+
+  while [ -z "$DEFAULT_THRESHOLD" ]; do
+    read -p "DEFAULT_THRESHOLD: " DEFAULT_THRESHOLD
+    [ -z "$DEFAULT_THRESHOLD" ] && echo "DEFAULT_THRESHOLD is required"
+  done
+
+  while [ -z "$SYNC_INTERVAL_MINUTES" ]; do
+    read -p "SYNC_INTERVAL_MINUTES: " SYNC_INTERVAL_MINUTES
+    [ -z "$SYNC_INTERVAL_MINUTES" ] && echo "SYNC_INTERVAL_MINUTES is required"
+  done
+
+  while [ -z "$ADMIN_IDS" ]; do
+    read -p "ADMIN_IDS (e.g., [1,2,3]): " ADMIN_IDS
+    [ -z "$ADMIN_IDS" ] && echo "ADMIN_IDS is required"
+  done
+
+  while [ -z "$BOT_LANG" ]; do
+    read -p "language (en, fa): " BOT_LANG
+    [ -z "$BOT_LANG" ] && echo "language is required"
+  done
+
+  cat > "$ENV_FILE" <<EOF
+NAME=$NAME
+BOT_TOKEN=$BOT_TOKEN
+GROUP_ID=$GROUP_ID
+API_KEY=$API_KEY
+API_SECRET=$API_SECRET
+DEFAULT_THRESHOLD=$DEFAULT_THRESHOLD
+SYNC_INTERVAL_MINUTES=$SYNC_INTERVAL_MINUTES
+ADMIN_IDS=$ADMIN_IDS
+BOT_LANG=$BOT_LANG
+EOF
+
+  echo "Created $ENV_FILE"
+  chmod 600 "$ENV_FILE"
+fi
+
+# Check if tmux is available
+if ! command -v tmux &> /dev/null; then
+  echo "tmux is not installed"
+  exit 1
+fi
+
+# Kill existing session if it exists
+if tmux has-session -t "$NAME" 2>/dev/null; then
+  echo "Killing existing session '$NAME'..."
+  tmux kill-session -t "$NAME"
+fi
+
+# Start new detached tmux session with output logged
+echo "Starting tmux session '$NAME'..."
+tmux new-session -d -s "$NAME" "export \$(xargs < $ENV_FILE); npm run start 2>&1 | tee $LOG_FILE; echo 'Process exited. Check logs and retry with same name if needed.' | tee -a $LOG_FILE"
+
+echo "Tmux session '$NAME' started and detached."
+echo "Logs are being written to $LOG_FILE"
+echo ""
+echo "To monitor: tmux attach -t $NAME"
+echo "To view logs: tail -f $LOG_FILE"
+echo "To stop:      tmux kill-session -t $NAME"
+echo ""
+echo "If the process exits with problems, retry with: $0 $NAME"
