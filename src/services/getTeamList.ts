@@ -1,32 +1,15 @@
 import { consts } from "../utils/consts";
+import { TLbankUser } from "../utils/types/lbankUser.type";
 import { sendRequest } from "../utils/sendRequest";
+import { TlbankFailure } from "../utils/types/lbankFailure.type";
+import { TlbankSuccess } from "../utils/types/lbankSuccess.type";
 
-export type TGetTeamListRes = {
-  id: number;
-  openId: string;
-  code: string;
-  createTime: number;
-  directInvitation: boolean;
-  deposit: boolean;
-  transaction: boolean;
-  kycStatus: number;
-  userLevel: number;
-  currencyFeeAmt: string;
-  contractFeeAmt: string;
-  currencyTotalFeeAmt: string;
-  contractTotalFeeAmt: string;
-  reserveAmt: string;
-};
+export type TGetTeamListRes = TLbankUser;
+
 export async function getTeamList(
   start: number = 0,
   pageSize: number = 100,
-): Promise<
-  | undefined
-  | {
-      result: "true" | "false";
-      data: TGetTeamListRes[];
-    }
-> {
+): Promise<undefined | TlbankSuccess<TGetTeamListRes[]> | TlbankFailure> {
   const method = "GET";
   const endpoint = consts.endpoints.teamList;
 
