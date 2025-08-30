@@ -38,7 +38,7 @@ Verification complete! Your private invitation link:
 
 🔗 {0}
 
-⚠️ This link expires in 24 hours
+⚠️ This link expires in 1 minute
   `,
 
   alreadyJoined: `
@@ -266,7 +266,7 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 
 🔗 {0}
 
-⚠️ این لینک پس از ۲۴ ساعت منقضی می‌شود
+⚠️ این لینک پس از 1دقیقه منقضی می‌شود
   `,
 
   alreadyJoined: `
