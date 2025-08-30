@@ -18,7 +18,7 @@ Please provide your UID to authenticate and proceed:
   notAllowed: `
 🚫  Authorization Required  🚫
 
-Your credentials don't currently grant access to this private group.
+Your credentials don't currently grant access to this private channel.
 
 Please contact support if you believe this is an error. 📩
   `,
@@ -246,7 +246,7 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
   notAllowed: `
 🚫  دسترسی محدود  🚫
 
-اعتبار شما در حال حاضر اجازه دسترسی به این گروه خصوصی را نمی‌دهد.
+اعتبار شما در حال حاضر اجازه دسترسی به این کانال خصوصی را نمی‌دهد.
 
 در صورت اشتباه بودن این پیام با پشتیبانی تماس بگیرید. 📩
   `,
@@ -272,7 +272,7 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
   alreadyJoined: `
 🤝  عضویت تأیید شد  🤝
 
-شما قبلاً عضو این گروه هستید.
+شما قبلاً عضو این کانال هستید.
 
 از امکانات ویژه خود لذت ببرید! 🎁
   `,

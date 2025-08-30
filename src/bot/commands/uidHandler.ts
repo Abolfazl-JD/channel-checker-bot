@@ -1,7 +1,6 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { getUserInfo } from "../../services/getUserInfo";
 import { consts } from "../../utils/consts";
 import { createInviteLink } from "../helpers/createInviteLink";
 
@@ -34,8 +33,7 @@ export async function uidHandler(
       return;
     }
 
-    const lbankUserInfo = await getUserInfo(uid);
-    if (!lbankUserInfo || lbankUserInfo?.result === "false") {
+    if (!uidUser) {
       await ctx.reply(i18n(lang, "uidDoesntExist"));
       return;
     }
@@ -54,7 +52,7 @@ export async function uidHandler(
     const threshold = await db.getThreshold();
     const balance = db.getTotalBalance(ctx.user);
     if (balance >= threshold) {
-      const link = await createInviteLink(bot, process.env.GROUP_ID!);
+      const link = await createInviteLink(bot, process.env.CHANNEL_ID!);
       await ctx.reply(i18n(lang, "inviteSent", link));
     } else {
       await ctx.reply(i18n(lang, "belowThreshold", threshold, balance));

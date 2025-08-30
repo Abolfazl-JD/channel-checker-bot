@@ -57,9 +57,9 @@ if [ "$goto_env_ready" != true ]; then
     [ -z "$BOT_TOKEN" ] && echo "BOT_TOKEN is required"
   done
 
-  while [ -z "$GROUP_ID" ]; do
-    read -p "GROUP_ID: " GROUP_ID
-    [ -z "$GROUP_ID" ] && echo "GROUP_ID is required"
+  while [ -z "$CHANNEL_ID" ]; do
+    read -p "CHANNEL_ID: " CHANNEL_ID
+    [ -z "$CHANNEL_ID" ] && echo "CHANNEL_ID is required"
   done
 
   while [ -z "$API_KEY" ]; do
@@ -95,7 +95,7 @@ if [ "$goto_env_ready" != true ]; then
   cat > "$ENV_FILE" <<EOF
 NAME=$NAME
 BOT_TOKEN=$BOT_TOKEN
-GROUP_ID=$GROUP_ID
+CHANNEL_ID=$CHANNEL_ID
 API_KEY=$API_KEY
 API_SECRET=$API_SECRET
 DEFAULT_THRESHOLD=$DEFAULT_THRESHOLD

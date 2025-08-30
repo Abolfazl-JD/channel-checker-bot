@@ -1,10 +1,10 @@
 import { consts } from "../../utils/consts";
 import { Telegraf } from "telegraf";
-import { BotContext  } from "..";
+import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
 import { isAdmin } from "../helpers/isAdmin";
-import { kickUserFromGroup } from "../helpers/kickUserFromGroup";
+import { kickUserFromChannel } from "../helpers/kickUserFromChannel";
 
 export async function forceKickHandler(
   ctx: BotContext,
@@ -30,8 +30,8 @@ export async function forceKickHandler(
     if (db.getTotalBalance(user) < threshold) {
       try {
         // Kick user
-        await kickUserFromGroup(bot, user.telegram_id);
-        await db.markUserKicked(user.telegram_id);
+        await kickUserFromChannel(bot, user.telegram_id);
+        await db.markUserLeft(user.telegram_id);
         kickedCount++;
 
         // Notify user
@@ -41,13 +41,18 @@ export async function forceKickHandler(
             i18n(lang, "kickedDueToBalance"),
           );
         } catch (notifyError) {
-          console.error(new Date().toString(), 
+          console.error(
+            new Date().toString(),
             `Could not notify user ${user.telegram_id}:`,
             notifyError,
           );
         }
       } catch (kickError) {
-        console.error(new Date().toString(), `Error kicking user ${user.telegram_id}:`, kickError);
+        console.error(
+          new Date().toString(),
+          `Error kicking user ${user.telegram_id}:`,
+          kickError,
+        );
       }
     }
   }

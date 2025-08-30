@@ -3,7 +3,6 @@ import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
 import { createInviteLink } from "../helpers/createInviteLink";
-import { isAdmin } from "../helpers/isAdmin";
 import { Markup } from "telegraf";
 
 export async function startHandler(
@@ -33,7 +32,7 @@ export async function startHandler(
   } else {
     const threshold = await db.getThreshold();
     if (db.getTotalBalance(ctx.user) >= threshold) {
-      const link = await createInviteLink(bot, process.env.GROUP_ID!);
+      const link = await createInviteLink(bot, process.env.CHANNEL_ID!);
       await ctx.reply(
         i18n(lang, "inviteSent", link),
         Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])

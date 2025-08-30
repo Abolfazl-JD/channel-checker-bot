@@ -8,7 +8,7 @@ export type TUser = {
   contract_balance: number;
   joined: boolean;
   joined_at: string | null;
-  kicked_at: string | null;
+  left_at: string | null;
   is_admin: boolean;
   language_code: "fa" | "en";
 };

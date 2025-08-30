@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import path from "path";
-import { TUser } from "./utils/user.type";
+import { TUser } from "./utils/types/user.type";
 import { consts } from "./utils/consts";
 
 // Database connection
@@ -27,7 +27,7 @@ export async function initDb() {
       contract_balance INTEGER DEFAULT 0,
       joined BOOLEAN DEFAULT 0,
       joined_at TEXT,
-      kicked_at TEXT,
+      left_at TEXT,
       language_code TEXT DEFAULT "en",
       is_admin BOOLEAN DEFAULT 0
     )
@@ -122,10 +122,10 @@ export async function markUserJoined(telegramId: number) {
   );
 }
 
-export async function markUserKicked(telegramId: number) {
+export async function markUserLeft(telegramId: number) {
   const now = new Date().toISOString();
   return db.run(
-    "UPDATE users SET joined = 0, kicked_at = ? WHERE telegram_id = ?",
+    "UPDATE users SET joined = 0, left_at = ? WHERE telegram_id = ?",
     now,
     telegramId,
   );
@@ -222,6 +222,11 @@ export async function getJoinedUsers(): Promise<TUser[]> {
   return db.all("SELECT * FROM users WHERE joined = 1");
 }
 
+// Get all users
+export async function getAllUsers(): Promise<TUser[]> {
+  return db.all("SELECT * FROM users");
+}
+
 // Save user
 export async function saveUser(
   user: Partial<Omit<TUser, "telegram_id">> & Pick<TUser, "telegram_id">,
@@ -242,7 +247,7 @@ export async function saveUser(
         contract_balance = COALESCE(?, contract_balance),
         joined = COALESCE(?, joined),
         joined_at = COALESCE(?, joined_at),
-        kicked_at = COALESCE(?, kicked_at),
+        left_at = COALESCE(?, left_at),
         is_admin = COALESCE(?, is_admin)
       WHERE uid = ?`,
       user.telegram_id,
@@ -252,7 +257,7 @@ export async function saveUser(
       user.contract_balance,
       user.joined,
       user.joined_at,
-      user.kicked_at,
+      user.left_at,
       user.is_admin,
       user.uid,
     );
@@ -267,7 +272,7 @@ export async function saveUser(
         contract_balance = COALESCE(?, contract_balance),
         joined = COALESCE(?, joined),
         joined_at = COALESCE(?, joined_at),
-        kicked_at = COALESCE(?, kicked_at),
+        left_at = COALESCE(?, left_at),
         is_admin = COALESCE(?, is_admin)
       WHERE telegram_id = ?`,
       user.uid,
@@ -277,7 +282,7 @@ export async function saveUser(
       user.contract_balance,
       user.joined,
       user.joined_at,
-      user.kicked_at,
+      user.left_at,
       user.is_admin,
       user.telegram_id,
     );
@@ -287,7 +292,7 @@ export async function saveUser(
       `INSERT INTO users (
         telegram_id, uid, username, name, 
         spot_balance, contract_balance, 
-        joined, joined_at, kicked_at, is_admin
+        joined, joined_at, left_at, is_admin
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       user.telegram_id,
       user.uid,
@@ -297,7 +302,7 @@ export async function saveUser(
       user.contract_balance || 0,
       user.joined || 0,
       user.joined_at,
-      user.kicked_at,
+      user.left_at,
       user.is_admin || 0,
     );
   }

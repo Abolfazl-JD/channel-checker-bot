@@ -13,10 +13,10 @@ function getEnvVar<T extends string>(key: string): T {
 export const consts = {
   projectName: getEnvVar("NAME"),
   botToken: getEnvVar("BOT_TOKEN"),
-  groupId: getEnvVar("GROUP_ID"),
+  channelId: getEnvVar("CHANNEL_ID"),
   apiKey: getEnvVar("API_KEY"),
   apiSecret: getEnvVar("API_SECRET"),
-  lang: getEnvVar<"en"|"fa">("BOT_LANG"),
+  lang: getEnvVar<"en" | "fa">("BOT_LANG"),
 
   baseUrl: "https://affiliate.lbankverify.com",
   endpoints: {

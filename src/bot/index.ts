@@ -5,8 +5,6 @@ import { threshholdHandler } from "./commands/threshholdHandler";
 import { addAdminHandler } from "./commands/addAdminHandler";
 import { statsHandler } from "./commands/statsHandler";
 import { forceKickHandler } from "./commands/forceKickHandler";
-import { newMemberHandler } from "./commands/newMemberHandler";
-import { leftMemberHandler } from "./commands/leftMemberHandler";
 import { middleware } from "./middleware";
 import { helpHandler } from "./commands/helpHandler";
 import { editWelcomeHandler } from "./commands/editWelcomeHandler";
@@ -58,10 +56,6 @@ export function createBot(token: string) {
   );
   bot.command("help", async (ctx) => helpHandler(ctx));
   bot.command("forcekick", async (ctx) => forceKickHandler(ctx, bot));
-
-  // Handle group join events
-  bot.on("new_chat_members", async (ctx) => newMemberHandler(ctx, bot));
-  bot.on("left_chat_member", async (ctx) => leftMemberHandler(ctx));
 
   bot.on("message", async (ctx) => {
     if (

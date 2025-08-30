@@ -2,6 +2,7 @@ import { initDb } from "./database";
 import { createBot } from "./bot";
 import { setupBalanceSync } from "./loop";
 import { consts } from "./utils/consts";
+import { setupChannelSync } from "./channelSync";
 
 async function main() {
   while (true) {
@@ -11,6 +12,9 @@ async function main() {
 
       // Create bot
       const bot = createBot(consts.botToken);
+
+      // Setup channel sync
+      setupChannelSync(bot);
 
       // Setup balance sync
       setupBalanceSync(bot);
@@ -69,8 +73,15 @@ async function main() {
 
       break; // exit while(true) after successful start
     } catch (error) {
-      console.error(new Date().toString(), "Error starting application:", error);
-      console.log(new Date().toString(), "Restarting application in 3 seconds...");
+      console.error(
+        new Date().toString(),
+        "Error starting application:",
+        error,
+      );
+      console.log(
+        new Date().toString(),
+        "Restarting application in 3 seconds...",
+      );
       await new Promise((res) => setTimeout(res, 3000));
     }
   }

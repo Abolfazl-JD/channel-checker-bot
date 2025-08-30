@@ -1,8 +1,9 @@
 import * as db from "./database";
 import { Telegraf } from "telegraf";
-import { kickUserFromGroup } from "./bot/helpers/kickUserFromGroup";
-import { getTeamList } from "./services/getTeamList";
+import { kickUserFromChannel } from "./bot/helpers/kickUserFromChannel";
+import { getTeamList, TGetTeamListRes } from "./services/getTeamList";
 import { consts } from "./utils/consts";
+import { isLbankReqSuccessfull } from "./bot/helpers/isLbankReqSuccessfull";
 
 // Sync balances from API
 export async function syncBalances(bot: Telegraf<any>) {
@@ -14,7 +15,12 @@ export async function syncBalances(bot: Telegraf<any>) {
     try {
       while (true) {
         const res = await getTeamList(i).then((res) => {
-          if (res?.data && res.data.length > 0) {
+          if (
+            res &&
+            isLbankReqSuccessfull<TGetTeamListRes[]>(res) &&
+            res?.data &&
+            res.data.length > 0
+          ) {
             return res;
           } else {
             console.log(new Date().toString(), "No data returned", i);
@@ -63,11 +69,11 @@ export async function syncBalances(bot: Telegraf<any>) {
             `User ${user.telegram_id} below threshold, kicking...`,
           );
 
-          // Kick user from group
-          const kicked = await kickUserFromGroup(bot, user.telegram_id);
+          // Kick user from channel
+          const kicked = await kickUserFromChannel(bot, user.telegram_id);
 
           if (kicked) {
-            await db.markUserKicked(user.telegram_id);
+            await db.markUserLeft(user.telegram_id);
 
             // Notify user
             try {
@@ -75,8 +81,8 @@ export async function syncBalances(bot: Telegraf<any>) {
               await bot.telegram.sendMessage(
                 user.telegram_id,
                 lang === "fa"
-                  ? "به دلیل کمتر بودن موجودی شما از حد آستانه، از گروه حذف شده اید."
-                  : "You have been removed from the group because your balance fell below the threshold.",
+                  ? "به دلیل کمتر بودن موجودی شما از حد آستانه، از کانال حذف شده اید."
+                  : "You have been removed from the channel because your balance fell below the threshold.",
               );
             } catch (notifyError) {
               console.error(
