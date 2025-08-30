@@ -222,9 +222,9 @@ export async function getJoinedUsers(): Promise<TUser[]> {
   return db.all("SELECT * FROM users WHERE joined = 1");
 }
 
-// Get all users
-export async function getAllUsers(): Promise<TUser[]> {
-  return db.all("SELECT * FROM users");
+// Get all users with a non-null telegram_id
+export async function getUsersWithTelegramId(): Promise<TUser[]> {
+  return db.all("SELECT * FROM users WHERE telegram_id IS NOT NULL");
 }
 
 // Save user

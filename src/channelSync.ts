@@ -7,7 +7,7 @@ export async function syncChannelMembers(bot: Telegraf<any>) {
     console.log(new Date().toString(), "Syncing channel members...");
 
     const channelId = process.env.CHANNEL_ID!;
-    const users = await db.getAllUsers();
+    const users = await db.getUsersWithTelegramId();
 
     for (const user of users) {
       try {
