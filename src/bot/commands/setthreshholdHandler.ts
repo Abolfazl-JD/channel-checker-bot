@@ -29,4 +29,21 @@ export async function setthreshholdHandler(ctx: BotContext) {
 
   await db.setThreshold(threshold);
   await ctx.reply(i18n(lang, "thresholdSet", threshold));
+
+  // Notify users
+  try {
+    const users = await db.getUsersWithTelegramId();
+    for (const user of users) {
+      await ctx.telegram.sendMessage(
+        user.telegram_id,
+        i18n(lang, "thresholdUpdate", threshold),
+      );
+    }
+  } catch (error) {
+    console.error(
+      new Date().toString(),
+      "Error sending message to users:",
+      error,
+    );
+  }
 }

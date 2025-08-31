@@ -91,6 +91,14 @@ Minimum balance requirement has been set to:
 Effective immediately. ⏱️
   `,
 
+  thresholdUpdate: `
+📈  System Threshold Updated  📈
+
+Minimum balance requirement has been updated to:
+
+▸ {0} 
+  `,
+
   currentThreshold: `
 🏷️  Current System Requirements  🏷️
 
@@ -310,6 +318,14 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 ▸ {0}
 
 این تغییر بلافاصله اعمال می‌شود. ⏱️
+  `,
+
+  thresholdUpdate: `
+📈  آستانه سیستم به‌روزرسانی شد  📈
+
+حداقل موجودی مورد نیاز تنظیم شد به:
+
+▸ {0}
   `,
 
   currentThreshold: `
