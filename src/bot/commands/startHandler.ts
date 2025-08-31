@@ -4,6 +4,7 @@ import * as db from "../../database";
 import { i18n } from "../../locale";
 import { createInviteLink } from "../helpers/createInviteLink";
 import { Markup } from "telegraf";
+import { isChannelMember } from "../helpers/isChannelMember";
 
 export async function startHandler(
   ctx: BotContext,
@@ -18,6 +19,9 @@ export async function startHandler(
   const welcomeMessage = await db.getWelcomeMessage();
   await ctx.reply(welcomeMessage || i18n(lang, "greeting"));
   const user = await db.getUserByTelegramId(ctx.from!.id);
+
+  const isUserJoined = await isChannelMember(bot, user?.telegram_id);
+
   if (!user?.uid) {
     ctx.reply(
       i18n(lang, "askContact"),
@@ -29,6 +33,13 @@ export async function startHandler(
         .oneTime(),
     );
     userState.set(ctx.from!.id, "AWAITING_CONTACT");
+  } else if (isUserJoined) {
+    await ctx.reply(
+      i18n(lang, "alreadyJoined"),
+      Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
+        .resize()
+        .oneTime(),
+    );
   } else {
     const threshold = await db.getThreshold();
     if (db.getTotalBalance(ctx.user) >= threshold) {

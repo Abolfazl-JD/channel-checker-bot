@@ -1,3 +1,4 @@
+import { isChannelMember } from "./bot/helpers/isChannelMember";
 import * as db from "./database";
 import { Telegraf } from "telegraf";
 
@@ -6,16 +7,10 @@ export async function syncChannelMembers(bot: Telegraf<any>) {
   try {
     console.log(new Date().toString(), "Syncing channel members...");
 
-    const channelId = process.env.CHANNEL_ID!;
     const users = await db.getUsersWithTelegramId();
-
     for (const user of users) {
       try {
-        const member = await bot.telegram.getChatMember(
-          channelId,
-          user.telegram_id,
-        );
-        const isNowJoined = member.status === "member";
+        const isNowJoined = await isChannelMember(bot, user.telegram_id);
 
         // Scenario 1: not joined before, now joined
         if (!user.joined && isNowJoined) {
