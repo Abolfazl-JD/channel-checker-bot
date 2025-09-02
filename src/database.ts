@@ -28,6 +28,8 @@ export async function initDb() {
       joined BOOLEAN DEFAULT 0,
       joined_at TEXT,
       left_at TEXT,
+      is_banned BOOLEAN DEFAULT 0,
+      banned_at TEXT,
       language_code TEXT DEFAULT "en",
       is_admin BOOLEAN DEFAULT 0
     )
@@ -131,6 +133,23 @@ export async function markUserLeft(telegramId: number) {
   );
 }
 
+export async function markUserBanned(telegramId: number) {
+  const now = new Date().toISOString();
+  return db.run(
+    "UPDATE users SET joined=0, is_banned = 1, banned_at = ? WHERE telegram_id = ?",
+    now,
+    telegramId,
+  );
+}
+
+export async function markUserUnbanned(telegramId: number) {
+  return db.run(
+    "UPDATE users SET joined=0, is_banned = 0, banned_at = ? WHERE telegram_id = ?",
+    null,
+    telegramId,
+  );
+}
+
 export async function makeAdmin(telegramId: number) {
   return db.run(
     "UPDATE users SET is_admin = 1 WHERE telegram_id = ?",
@@ -215,6 +234,13 @@ export async function getUserByTelegramId(
 // Get user by UID
 export async function getUserByUid(uid: string): Promise<TUser | null> {
   return db.get("SELECT * FROM users WHERE uid = ?", uid);
+}
+
+//Get user by username
+export async function getUserByUsername(
+  username: string,
+): Promise<TUser | null> {
+  return db.get("SELECT * FROM users WHERE username = ?", username);
 }
 
 // Get all joined users

@@ -20,6 +20,10 @@ export async function startHandler(
   await ctx.reply(welcomeMessage || i18n(lang, "greeting"));
   const user = await db.getUserByTelegramId(ctx.from!.id);
 
+  if (user?.is_banned) {
+    await ctx.reply(i18n(lang, "banAnnouncement"));
+    return;
+  }
   const isUserJoined = await isChannelMember(bot, user?.telegram_id);
 
   if (!user?.uid) {

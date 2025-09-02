@@ -4,6 +4,7 @@ import { BotContext } from "..";
 export async function kickUserFromChannel(
   bot: Telegraf<BotContext>,
   userId: number,
+  ban: boolean = false,
 ): Promise<boolean> {
   try {
     await bot.telegram.banChatMember(
@@ -12,8 +13,10 @@ export async function kickUserFromChannel(
       Math.floor(Date.now() / 1000) + 60, // Ban for 1 minute
     );
 
-    // Immediately unban to allow rejoining in the future
-    await bot.telegram.unbanChatMember(process.env.CHANNEL_ID!, userId);
+    if (!ban) {
+      // Immediately unban to allow rejoining in the future
+      await bot.telegram.unbanChatMember(process.env.CHANNEL_ID!, userId);
+    }
     return true;
   } catch (error) {
     console.error(

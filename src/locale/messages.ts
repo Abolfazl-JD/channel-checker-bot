@@ -141,6 +141,29 @@ The UID format appears invalid.
 ▸ Resubmit with correct details 📝
   `,
 
+  usernameNotFound: `
+❓  User Not Found  ❓
+
+The provided Username wasn't found in our system.
+
+▸ Check for typos
+  `,
+
+  userBanned: `
+🚫  User Banned  🚫
+
+This user has been permanently suspended from our platform.
+to unban, use command /unban username
+  `,
+
+  invalidUsername:
+    "📛  Invalid username  📛\n\nPlease enter a valid username.\n\nit should be like @username. 🔢",
+
+  banAnnouncement: `
+🚫  You were Banned and removed from channel  🚫
+for additional information contact support
+  `,
+
   kickedDueToBalance: `
 📉  Membership Paused  📉
 
@@ -150,6 +173,11 @@ Reason: Balance fell below required threshold.
 
 Replenish to regain access. 💳
   `,
+
+  userUnbanned: "✅ User {0} has been unbanned.",
+
+  unbanAnnouncement:
+    "🎉 You have been unbanned! You can now use the bot again.",
 
   error: `
 ⚠️━━━━━━━━━━━━━━━━━━━━━━━━━━━⚠️
@@ -229,6 +257,8 @@ if you have a problem contact {0}
 ▸ /stats - View system analytics
 ▸ /editWelcome - Customize greeting message
 ▸ /setsupport <@username> - change support
+▸ /ban <@username> - ban user
+▸ /unban <@username> - unban user
 
 Need assistance? Contact our support team! 💬
   `,
@@ -452,6 +482,37 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 لطفا یک آیدی درست استفاده کنید.
 
   `,
+  invalidUsername: `
+📛  نام کاربری غلط  📛
+
+لطفا یک نام کاربری درست استفاده کنید.
+
+  `,
+  usernameNotFound: `
+📛  نام کاربری یافت نشد  📛
+
+کاربری با نام کاربری داده شده وجود ندارد.
+
+  `,
+
+  userBanned: `
+🚷  کاربر مسدود شد  🚷
+
+کاربر با نام کاربری داده شده مسدود شده است.
+برای رفع مسدودی از دستور /unban استفاده کنید
+
+  `,
+
+  banAnnouncement: `
+🚷 شما از کانال ذف و مسدود شدید  🚷
+برای کسب اطلاعات بیشتر به پشتیبانی پیام بدید
+
+  `,
+
+  userUnbanned: "✅ کاربر {0} از حالت بن خارج شد.",
+
+  unbanAnnouncement:
+    "🎉 شما از حالت بن خارج شدید! دوباره می‌توانید از ربات استفاده کنید.",
 
   help: `
 🆘  پنل مدیریت حساب  🆘
@@ -464,6 +525,8 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 ▸ /stats - مشاهده آمار سیستم
 ▸ /editWelcome - سفارشی‌سازی پیام خوشامد
 ▸ /setsupport <@username> - تغییر پشتیبانی
+▸ /ban <@username> - مسدود کردن کاربر
+▸ /unban <@username> - رفع مسدودی کاربر
 
 نیاز به کمک دارید؟ با پشتیبانی تماس بگیرید! 💬
   `,

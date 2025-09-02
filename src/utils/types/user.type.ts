@@ -10,5 +10,7 @@ export type TUser = {
   joined_at: string | null;
   left_at: string | null;
   is_admin: boolean;
+  is_banned: boolean;
+  banned_at: string | null;
   language_code: "fa" | "en";
 };

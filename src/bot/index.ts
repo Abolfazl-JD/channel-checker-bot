@@ -16,6 +16,8 @@ import { i18n } from "../locale";
 import { consts } from "../utils/consts";
 import { supportHandler } from "./commands/supportHandler";
 import { setSupportHandler } from "./commands/setSupportHandler";
+import { unbanUserHandler } from "./commands/unbanHandler";
+import { banUserHandler } from "./commands/banUserHandler";
 
 export type UserState =
   | "AWAITING_CONTACT"
@@ -51,6 +53,8 @@ export function createBot(token: string) {
   bot.command("threshold", async (ctx) => threshholdHandler(ctx));
   bot.command("addadmin", async (ctx) => addAdminHandler(ctx));
   bot.command("stats", async (ctx) => statsHandler(ctx));
+  bot.command("ban", async (ctx) => banUserHandler(ctx, bot));
+  bot.command("unban", async (ctx) => unbanUserHandler(ctx, bot));
   bot.command("editWelcome", async (ctx) =>
     editWelcomeCommandHandler(ctx, userState),
   );
