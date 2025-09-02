@@ -16,14 +16,15 @@ export async function startHandler(
 
   const lang = consts.lang;
 
-  const welcomeMessage = await db.getWelcomeMessage();
-  await ctx.reply(welcomeMessage || i18n(lang, "greeting"));
   const user = await db.getUserByTelegramId(ctx.from!.id);
-
   if (user?.is_banned) {
     await ctx.reply(i18n(lang, "banAnnouncement"));
     return;
   }
+
+  const welcomeMessage = await db.getWelcomeMessage();
+  await ctx.reply(welcomeMessage || i18n(lang, "greeting"));
+
   const isUserJoined = await isChannelMember(bot, user?.telegram_id);
 
   if (!user?.uid) {

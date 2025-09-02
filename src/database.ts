@@ -36,9 +36,7 @@ export async function initDb() {
   `);
   try {
     await db.exec(`ALTER TABLE users ADD COLUMN phone TEXT`);
-    await db.exec("ALTER TABLE users ADD COLUMN is_banned BOOLEAN DEFAULT 0");
-    await db.exec("ALTER TABLE users ADD COLUMN banned_at TEXT DEFAULT NULL");
-    console.log("New columns added successfully");
+    console.log("New column added successfully");
   } catch (error) {
     // Column probably already exists, which is fine
     //@ts-ignore
