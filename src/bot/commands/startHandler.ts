@@ -10,8 +10,10 @@ export async function startHandler(
   bot: Telegraf<BotContext>,
   userState: Map<number, UserState>,
 ) {
-  if (!ctx.chat || !ctx.message || !("text" in ctx.message)) return;
-  if (ctx.chat.type !== "private") return; // Skip if not a private chat
+  const chat = ctx.chat || ctx.callbackQuery?.message?.chat;
+
+  if (!chat) return;
+  if (chat.type !== "private") return; // Skip if not a private chat
 
   const user = await db.getUserByTelegramId(ctx.from!.id);
   const lang = user?.lang || "en";
