@@ -12,5 +12,5 @@ export type TUser = {
   is_admin: boolean;
   is_banned: boolean;
   banned_at: string | null;
-  language_code: "fa" | "en";
+  lang: "fa" | "en";
 };

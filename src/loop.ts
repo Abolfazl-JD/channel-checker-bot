@@ -2,7 +2,6 @@ import * as db from "./database";
 import { Telegraf } from "telegraf";
 import { kickUserFromChannel } from "./bot/helpers/kickUserFromChannel";
 import { getTeamList, TGetTeamListRes } from "./services/getTeamList";
-import { consts } from "./utils/consts";
 import { isLbankReqSuccessfull } from "./bot/helpers/isLbankReqSuccessfull";
 
 // Sync balances from API
@@ -77,7 +76,7 @@ export async function syncBalances(bot: Telegraf<any>) {
 
             // Notify user
             try {
-              const lang = consts.lang || "en";
+              const lang = user.lang || "en";
               await bot.telegram.sendMessage(
                 user.telegram_id,
                 lang === "fa"

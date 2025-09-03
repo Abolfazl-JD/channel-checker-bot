@@ -1,5 +1,5 @@
 import { Telegraf, Context } from "telegraf";
-import { startHandler } from "./commands/startHandler";
+import { setLangHandler } from "./commands/setLangHandler";
 import { setthreshholdHandler } from "./commands/setthreshholdHandler";
 import { threshholdHandler } from "./commands/threshholdHandler";
 import { addAdminHandler } from "./commands/addAdminHandler";
@@ -13,16 +13,18 @@ import { editWelcomeCommandHandler } from "./commands/editWelcomeCommandHandler"
 import { Agent } from "https";
 import { contactHandler } from "./commands/contactHandler";
 import { i18n } from "../locale";
-import { consts } from "../utils/consts";
 import { supportHandler } from "./commands/supportHandler";
 import { setSupportHandler } from "./commands/setSupportHandler";
 import { unbanUserHandler } from "./commands/unbanHandler";
 import { banUserHandler } from "./commands/banUserHandler";
+import { callbackHandler } from "./commands/callbackHandler";
+import * as db from "../database";
 
 export type UserState =
   | "AWAITING_CONTACT"
   | "AWAITING_UID"
-  | "AWAITING_WELCOME";
+  | "AWAITING_WELCOME"
+  | "AWAITING_LANGUAGE";
 
 const userState = new Map<number, UserState>();
 
@@ -45,7 +47,7 @@ export function createBot(token: string) {
   bot.use(async (ctx, next) => middleware(ctx, next));
 
   // Start command
-  bot.start((ctx) => startHandler(ctx, bot, userState));
+  bot.start((ctx) => setLangHandler(ctx, userState));
 
   // Admin commands
   bot.command("setthreshold", async (ctx) => setthreshholdHandler(ctx));
@@ -60,15 +62,19 @@ export function createBot(token: string) {
   );
   bot.command("help", async (ctx) => helpHandler(ctx));
   bot.command("forcekick", async (ctx) => forceKickHandler(ctx, bot));
+  bot.on("callback_query", async (ctx) => callbackHandler(ctx, bot, userState));
 
   bot.on("message", async (ctx) => {
+    const user = await db.getUserByTelegramId(ctx.from!.id);
+    const lang = user?.lang || "en";
+
     if (
       "text" in ctx.message &&
-      ctx.message.text === i18n(consts.lang || "en", "support")
+      ctx.message.text === i18n(lang || "en", "support")
     )
       await supportHandler(ctx);
     if (userState.get(ctx.from!.id) == "AWAITING_CONTACT")
-      await contactHandler(ctx, bot, userState);
+      await contactHandler(ctx, userState);
 
     if (userState.get(ctx.from!.id) == "AWAITING_UID")
       await uidHandler(ctx, bot, userState);

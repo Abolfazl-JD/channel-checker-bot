@@ -2,16 +2,15 @@ import { Markup } from "telegraf";
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { consts } from "../../utils/consts";
 
 export async function contactHandler(
   ctx: BotContext,
-  bot: any,
   userState: Map<number, UserState>,
 ) {
   if (!ctx.message || !("contact" in ctx.message) || !ctx.from) return;
 
-  const lang = consts.lang || "en";
+  const user = await db.getUserByTelegramId(ctx.from.id);
+  const lang = user?.lang || "en";
 
   try {
     const phone = ctx.message.contact.phone_number;

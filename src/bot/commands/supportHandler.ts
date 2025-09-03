@@ -1,21 +1,18 @@
-import { BotContext, UserState } from "..";
+import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { consts } from "../../utils/consts";
 
-export async function supportHandler(
-  ctx: BotContext,
-) {
+export async function supportHandler(ctx: BotContext) {
   if (!ctx.message || !("text" in ctx.message) || !ctx.from) return;
 
-  const lang = consts.lang;
-  const supportId = await db.getSupportId()
-  try {
+  const user = await db.getUserByTelegramId(ctx.from.id);
+  const lang = user?.lang || "en";
 
-    await ctx.reply(i18n(lang, "supportMessage",supportId));
+  const supportId = await db.getSupportId();
+  try {
+    await ctx.reply(i18n(lang, "supportMessage", supportId));
   } catch (e) {
     console.log(e);
     await ctx.reply(i18n(lang, "error"));
   }
-
 }

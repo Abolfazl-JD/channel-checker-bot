@@ -1,7 +1,6 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { consts } from "../../utils/consts";
 
 export async function editWelcomeHandler(
   ctx: BotContext,
@@ -9,7 +8,9 @@ export async function editWelcomeHandler(
 ) {
   if (!ctx.message || !("text" in ctx.message) || !ctx.from) return;
 
-  const lang = consts.lang;
+  const user = await db.getUserByTelegramId(ctx.from.id);
+  const lang = user?.lang || "en";
+
   const messageText = ctx.message.text;
   try {
     await db.setWelcomeMessage(messageText);

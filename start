@@ -87,11 +87,6 @@ if [ "$goto_env_ready" != true ]; then
     [ -z "$ADMIN_IDS" ] && echo "ADMIN_IDS is required"
   done
 
-  while [ -z "$BOT_LANG" ]; do
-    read -p "language (en, fa): " BOT_LANG
-    [ -z "$BOT_LANG" ] && echo "language is required"
-  done
-
   cat > "$ENV_FILE" <<EOF
 NAME=$NAME
 BOT_TOKEN=$BOT_TOKEN
@@ -101,7 +96,6 @@ API_SECRET=$API_SECRET
 DEFAULT_THRESHOLD=$DEFAULT_THRESHOLD
 SYNC_INTERVAL_MINUTES=$SYNC_INTERVAL_MINUTES
 ADMIN_IDS=$ADMIN_IDS
-BOT_LANG=$BOT_LANG
 EOF
 
   echo "Created $ENV_FILE"

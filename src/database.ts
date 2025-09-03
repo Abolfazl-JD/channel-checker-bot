@@ -30,7 +30,7 @@ export async function initDb() {
       left_at TEXT,
       is_banned BOOLEAN DEFAULT 0,
       banned_at TEXT,
-      language_code TEXT DEFAULT "en",
+      lang TEXT DEFAULT "en",
       is_admin BOOLEAN DEFAULT 0
     )
   `);
@@ -98,6 +98,15 @@ export async function updateUserPhone(telegramId: number, phone: string) {
     telegramId,
   );
 }
+
+export async function updateUserLanguage(telegramId: number, lang: string) {
+  return db.run(
+    "UPDATE users SET lang = ? WHERE telegram_id = ?",
+    lang,
+    telegramId,
+  );
+}
+
 export async function updateUserBalances(
   uid: string,
   spotBalance: number,

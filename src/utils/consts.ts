@@ -16,7 +16,6 @@ export const consts = {
   channelId: getEnvVar("CHANNEL_ID"),
   apiKey: getEnvVar("API_KEY"),
   apiSecret: getEnvVar("API_SECRET"),
-  lang: getEnvVar<"en" | "fa">("BOT_LANG"),
 
   baseUrl: "https://affiliate.lbankverify.com",
   endpoints: {

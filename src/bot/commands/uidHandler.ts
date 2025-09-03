@@ -1,7 +1,6 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { consts } from "../../utils/consts";
 import { createInviteLink } from "../helpers/createInviteLink";
 
 export async function uidHandler(
@@ -13,7 +12,8 @@ export async function uidHandler(
   if (ctx.message.text.startsWith("/")) return;
   if (userState.get(ctx.from!.id) !== "AWAITING_UID") return;
 
-  const lang = consts.lang || "en";
+  const user = await db.getUserByTelegramId(ctx.from.id);
+  const lang = user?.lang || "en";
 
   try {
     const uid = ctx.message.text.trim();

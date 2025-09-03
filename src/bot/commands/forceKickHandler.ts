@@ -1,4 +1,3 @@
-import { consts } from "../../utils/consts";
 import { Telegraf } from "telegraf";
 import { BotContext } from "..";
 import * as db from "../../database";
@@ -13,7 +12,8 @@ export async function forceKickHandler(
   if (!ctx.chat) return;
   if (ctx.chat.type !== "private") return; // Skip if not a private chat
 
-  const lang = consts.lang;
+  const user = await db.getUserByTelegramId(ctx.from!.id);
+  const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
     await ctx.reply(i18n(lang, "adminOnly"));

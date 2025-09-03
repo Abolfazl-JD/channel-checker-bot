@@ -2,7 +2,6 @@ import { Telegraf } from "telegraf";
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
-import { consts } from "../../utils/consts";
 import { isAdmin } from "../helpers/isAdmin";
 
 export async function unbanUserHandler(
@@ -12,7 +11,8 @@ export async function unbanUserHandler(
   if (!ctx.chat || !ctx.message || !("text" in ctx.message)) return;
   if (ctx.chat.type !== "private") return; // Only in private chat
 
-  const lang = consts.lang;
+  const admin = await db.getUserByTelegramId(ctx.from!.id);
+  const lang = admin?.lang || "en";
 
   // Check admin
   if (!isAdmin(ctx)) {
