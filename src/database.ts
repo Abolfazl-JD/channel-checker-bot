@@ -22,6 +22,7 @@ export async function initDb() {
       telegram_id INTEGER UNIQUE,
       uid TEXT UNIQUE,
       username TEXT,
+      phone TEXT,
       name TEXT,
       spot_balance INTEGER DEFAULT 0,
       contract_balance INTEGER DEFAULT 0,
@@ -34,16 +35,7 @@ export async function initDb() {
       is_admin BOOLEAN DEFAULT 0
     )
   `);
-  try {
-    await db.exec(`ALTER TABLE users ADD COLUMN phone TEXT`);
-    console.log("New column added successfully");
-  } catch (error) {
-    // Column probably already exists, which is fine
-    //@ts-ignore
-    if (!error.message.includes("duplicate column name")) {
-      throw error;
-    }
-  }
+
   // Create settings table
   await db.exec(`
     CREATE TABLE IF NOT EXISTS settings (

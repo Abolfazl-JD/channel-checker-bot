@@ -2,6 +2,7 @@ export type TUser = {
   id: number;
   telegram_id: number;
   uid: string;
+  phone: string;
   username: string;
   name: string;
   spot_balance: number;

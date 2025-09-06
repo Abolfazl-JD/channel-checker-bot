@@ -35,7 +35,7 @@ export async function startHandler(
 
   await ctx.reply(i18n(lang, "greeting"));
 
-  if (!user?.uid) {
+  if (!user?.phone) {
     ctx.reply(
       i18n(lang, "askContact"),
       Markup.keyboard([
@@ -46,6 +46,15 @@ export async function startHandler(
         .oneTime(),
     );
     userState.set(ctx.from!.id, "AWAITING_CONTACT");
+  } else if (!user.uid) {
+    await ctx.reply(
+      i18n(lang, "askUid"),
+      Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
+        .resize()
+        .oneTime(),
+    );
+
+    userState.set(ctx.from!.id, "AWAITING_UID");
   } else {
     const threshold = await db.getThreshold();
     if (db.getTotalBalance(ctx.user) >= threshold) {
