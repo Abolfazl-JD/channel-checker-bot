@@ -33,8 +33,6 @@ export async function startHandler(
     );
   }
 
-  await ctx.reply(i18n(lang, "greeting"));
-
   if (!user?.phone) {
     ctx.reply(
       i18n(lang, "askContact"),

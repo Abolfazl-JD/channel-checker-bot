@@ -2,6 +2,7 @@ import { Telegraf } from "telegraf";
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { startHandler } from "./startHandler";
+import { i18n } from "../../locale";
 
 export const callbackHandler = async (
   ctx: BotContext,
@@ -11,20 +12,22 @@ export const callbackHandler = async (
   const telegramId = ctx.from!.id;
 
   if (ctx.callbackQuery && "data" in ctx.callbackQuery) {
-    const lang = ctx.callbackQuery.data;
+    const lang = ctx.callbackQuery.data === "LANG_FA" ? "fa" : "en";
     console.log(`user ${telegramId} set language to ${lang}`);
 
-    if (lang === "LANG_FA") {
+    if (lang === "fa") {
       await ctx.answerCbQuery("زبان فارسی انتخاب شد ✅");
-      await db.updateUserLanguage(telegramId, "fa");
+      await db.updateUserLanguage(telegramId, lang);
       await ctx.editMessageText("🇮🇷 زبان شما به فارسی تغییر یافت.");
-    } else if (lang === "LANG_EN") {
+    } else if (lang === "en") {
       await ctx.answerCbQuery("English language selected ✅");
-      await db.updateUserLanguage(telegramId, "en");
+      await db.updateUserLanguage(telegramId, lang);
       await ctx.editMessageText("🇺🇸 Your language has been set to English.");
     }
 
     userState.delete(telegramId);
+
+    await ctx.reply(i18n(lang, "greeting"));
     await startHandler(ctx, bot, userState);
   } else {
     console.error("callback query has no data");
