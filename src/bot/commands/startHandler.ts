@@ -4,6 +4,7 @@ import { i18n } from "../../locale";
 import { createInviteLink } from "../helpers/createInviteLink";
 import { Markup, Telegraf } from "telegraf";
 import { isChannelMember } from "../helpers/isChannelMember";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function startHandler(
   ctx: BotContext,
@@ -25,12 +26,7 @@ export async function startHandler(
 
   const isUserJoined = await isChannelMember(bot, user?.telegram_id);
   if (isUserJoined) {
-    await ctx.reply(
-      i18n(lang, "alreadyJoined"),
-      Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
-        .resize()
-        .oneTime(),
-    );
+    await ctx.reply(i18n(lang, "alreadyJoined"), mainMenuKeyboard(lang));
   }
 
   if (!user?.phone) {
@@ -45,30 +41,18 @@ export async function startHandler(
     );
     userState.set(ctx.from!.id, "AWAITING_CONTACT");
   } else if (!user.uid) {
-    await ctx.reply(
-      i18n(lang, "askUid"),
-      Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
-        .resize()
-        .oneTime(),
-    );
+    await ctx.reply(i18n(lang, "askUid"), mainMenuKeyboard(lang));
 
     userState.set(ctx.from!.id, "AWAITING_UID");
   } else {
     const threshold = await db.getThreshold();
     if (db.getTotalBalance(ctx.user) >= threshold) {
       const link = await createInviteLink(bot, process.env.CHANNEL_ID!);
-      await ctx.reply(
-        i18n(lang, "inviteSent", link),
-        Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
-          .resize()
-          .oneTime(),
-      );
+      await ctx.reply(i18n(lang, "inviteSent", link), mainMenuKeyboard(lang));
     } else {
       await ctx.reply(
         i18n(lang, "belowThreshold", threshold, db.getTotalBalance(ctx.user)),
-        Markup.keyboard([[Markup.button.text(i18n(lang, "support"))]])
-          .resize()
-          .oneTime(),
+        mainMenuKeyboard(lang),
       );
     }
   }

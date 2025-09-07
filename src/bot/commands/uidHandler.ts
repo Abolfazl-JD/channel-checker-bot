@@ -1,6 +1,7 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 import { createInviteLink } from "../helpers/createInviteLink";
 
 export async function uidHandler(
@@ -20,7 +21,7 @@ export async function uidHandler(
 
     const existingUser = await db.getUserByTelegramId(ctx.from!.id);
     if (existingUser?.uid) {
-      await ctx.reply(i18n(lang, "cannotChangeUid"));
+      await ctx.reply(i18n(lang, "cannotChangeUid"), mainMenuKeyboard(lang));
       userState.delete(ctx.from!.id);
       return;
     }
@@ -28,13 +29,13 @@ export async function uidHandler(
     const uidUser = await db.getUserByUid(uid);
 
     if (uidUser?.telegram_id) {
-      await ctx.reply(i18n(lang, "uidAlreadyUsed"));
-      // userState.delete(ctx.from!.id);
+      await ctx.reply(i18n(lang, "uidAlreadyUsed"), mainMenuKeyboard(lang));
+      userState.delete(ctx.from!.id);
       return;
     }
 
     if (!uidUser) {
-      await ctx.reply(i18n(lang, "uidDoesntExist"));
+      await ctx.reply(i18n(lang, "uidDoesntExist"), mainMenuKeyboard(lang));
       return;
     }
 
@@ -53,13 +54,16 @@ export async function uidHandler(
     const balance = db.getTotalBalance(ctx.user);
     if (balance >= threshold) {
       const link = await createInviteLink(bot, process.env.CHANNEL_ID!);
-      await ctx.reply(i18n(lang, "inviteSent", link));
+      await ctx.reply(i18n(lang, "inviteSent", link), mainMenuKeyboard(lang));
     } else {
-      await ctx.reply(i18n(lang, "belowThreshold", threshold, balance));
+      await ctx.reply(
+        i18n(lang, "belowThreshold", threshold, balance),
+        mainMenuKeyboard(lang),
+      );
     }
   } catch (error) {
     console.error(new Date().toString(), "Error processing UID input:", error);
-    await ctx.reply(i18n(lang, "error"));
+    await ctx.reply(i18n(lang, "error"), mainMenuKeyboard(lang));
   }
   userState.delete(ctx.from!.id);
 }

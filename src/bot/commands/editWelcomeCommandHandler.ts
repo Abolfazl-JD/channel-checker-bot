@@ -2,6 +2,7 @@ import { BotContext, UserState } from "..";
 import { i18n } from "../../locale";
 import { isAdmin } from "../helpers/isAdmin";
 import * as db from "../../database";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function editWelcomeCommandHandler(
   ctx: BotContext,
@@ -14,10 +15,10 @@ export async function editWelcomeCommandHandler(
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
-  await ctx.reply(i18n(lang, "editWelcome"));
+  await ctx.reply(i18n(lang, "editWelcome"), mainMenuKeyboard(lang));
   userState.set(ctx.from!.id, "AWAITING_WELCOME");
 }

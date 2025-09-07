@@ -1,6 +1,7 @@
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 import { isAdmin } from "../helpers/isAdmin";
 
 export async function addAdminHandler(ctx: BotContext) {
@@ -11,22 +12,22 @@ export async function addAdminHandler(ctx: BotContext) {
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
   const args = ctx.message.text.split(" ");
   if (args.length < 2) {
-    await ctx.reply("Please provide a Telegram ID");
+    await ctx.reply("Please provide a Telegram ID", mainMenuKeyboard(lang));
     return;
   }
 
   const telegramId = parseInt(args[1], 10);
   if (isNaN(telegramId)) {
-    await ctx.reply("Invalid Telegram ID");
+    await ctx.reply("Invalid Telegram ID", mainMenuKeyboard(lang));
     return;
   }
 
   await db.makeAdmin(telegramId);
-  await ctx.reply(i18n(lang, "adminAdded", telegramId));
+  await ctx.reply(i18n(lang, "adminAdded", telegramId), mainMenuKeyboard(lang));
 }

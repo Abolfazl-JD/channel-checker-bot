@@ -1,6 +1,7 @@
 import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function editWelcomeHandler(
   ctx: BotContext,
@@ -15,10 +16,10 @@ export async function editWelcomeHandler(
   try {
     await db.setWelcomeMessage(messageText);
 
-    await ctx.reply(i18n(lang, "editSuccess"));
+    await ctx.reply(i18n(lang, "editSuccess"), mainMenuKeyboard(lang));
   } catch (e) {
     console.log(e);
-    await ctx.reply(i18n(lang, "error"));
+    await ctx.reply(i18n(lang, "error"), mainMenuKeyboard(lang));
   }
 
   userState.delete(ctx.from!.id);

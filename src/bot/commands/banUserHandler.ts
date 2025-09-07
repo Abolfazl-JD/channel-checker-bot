@@ -4,6 +4,7 @@ import { i18n } from "../../locale";
 import { isAdmin } from "../helpers/isAdmin";
 import * as db from "../../database";
 import { kickUserFromChannel } from "../helpers/kickUserFromChannel";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function banUserHandler(
   ctx: BotContext,
@@ -16,32 +17,32 @@ export async function banUserHandler(
   const lang = admin?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
   const args = ctx.message.text.split(" ");
   if (args.length < 2) {
-    await ctx.reply(i18n(lang, "invalidUsername"));
+    await ctx.reply(i18n(lang, "invalidUsername"), mainMenuKeyboard(lang));
     return;
   }
 
   const username = String(args[1]);
   if (!username.startsWith("@")) {
-    await ctx.reply(i18n(lang, "invalidUsername"));
+    await ctx.reply(i18n(lang, "invalidUsername"), mainMenuKeyboard(lang));
     return;
   }
 
   const user = await db.getUserByUsername(username.substring(1));
   if (!user) {
-    await ctx.reply(i18n(lang, "usernameNotFound"));
+    await ctx.reply(i18n(lang, "usernameNotFound"), mainMenuKeyboard(lang));
     return;
   }
 
   const result = await kickUserFromChannel(bot, user.telegram_id, true);
   if (result) {
     await db.markUserBanned(user.telegram_id);
-    await ctx.reply(i18n(lang, "userBanned", username));
+    await ctx.reply(i18n(lang, "userBanned", username), mainMenuKeyboard(lang));
 
     //notify user
     try {

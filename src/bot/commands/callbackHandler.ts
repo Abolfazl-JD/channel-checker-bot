@@ -3,6 +3,7 @@ import { BotContext, UserState } from "..";
 import * as db from "../../database";
 import { startHandler } from "./startHandler";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export const callbackHandler = async (
   ctx: BotContext,
@@ -10,6 +11,8 @@ export const callbackHandler = async (
   userState: Map<number, UserState>,
 ) => {
   const telegramId = ctx.from!.id;
+
+  if (userState.get(telegramId) !== "AWAITING_LANGUAGE") return;
 
   if (ctx.callbackQuery && "data" in ctx.callbackQuery) {
     const lang = ctx.callbackQuery.data === "LANG_FA" ? "fa" : "en";
@@ -27,7 +30,7 @@ export const callbackHandler = async (
 
     userState.delete(telegramId);
 
-    await ctx.reply(i18n(lang, "greeting"));
+    await ctx.reply(i18n(lang, "greeting"), mainMenuKeyboard(lang);
     await startHandler(ctx, bot, userState);
   } else {
     console.error("callback query has no data");

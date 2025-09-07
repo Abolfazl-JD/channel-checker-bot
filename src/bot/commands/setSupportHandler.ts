@@ -1,6 +1,7 @@
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 import { isAdmin } from "../helpers/isAdmin";
 
 export async function setSupportHandler(ctx: BotContext) {
@@ -11,18 +12,18 @@ export async function setSupportHandler(ctx: BotContext) {
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
   const args = ctx.message.text.split(" ");
   if (args.length < 2) {
-    await ctx.reply(i18n(lang, "invalidSupport"));
+    await ctx.reply(i18n(lang, "invalidSupport"), mainMenuKeyboard(lang));
     return;
   }
 
   const support = args[1];
 
   await db.setSupportId(support);
-  await ctx.reply(i18n(lang, "supportSet", support));
+  await ctx.reply(i18n(lang, "supportSet", support), mainMenuKeyboard(lang));
 }

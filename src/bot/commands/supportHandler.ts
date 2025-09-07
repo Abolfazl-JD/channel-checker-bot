@@ -1,6 +1,7 @@
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function supportHandler(ctx: BotContext) {
   if (!ctx.message || !("text" in ctx.message) || !ctx.from) return;
@@ -10,9 +11,12 @@ export async function supportHandler(ctx: BotContext) {
 
   const supportId = await db.getSupportId();
   try {
-    await ctx.reply(i18n(lang, "supportMessage", supportId));
+    await ctx.reply(
+      i18n(lang, "supportMessage", supportId),
+      mainMenuKeyboard(lang),
+    );
   } catch (e) {
     console.log(e);
-    await ctx.reply(i18n(lang, "error"));
+    await ctx.reply(i18n(lang, "error"), mainMenuKeyboard(lang));
   }
 }

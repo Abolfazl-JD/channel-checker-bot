@@ -4,6 +4,7 @@ import * as db from "../../database";
 import { i18n } from "../../locale";
 import { isAdmin } from "../helpers/isAdmin";
 import { kickUserFromChannel } from "../helpers/kickUserFromChannel";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 
 export async function forceKickHandler(
   ctx: BotContext,
@@ -16,7 +17,7 @@ export async function forceKickHandler(
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
@@ -57,5 +58,8 @@ export async function forceKickHandler(
     }
   }
 
-  await ctx.reply(`Force kick completed. ${kickedCount} users were removed.`);
+  await ctx.reply(
+    `Force kick completed. ${kickedCount} users were removed.`,
+    mainMenuKeyboard(lang),
+  );
 }

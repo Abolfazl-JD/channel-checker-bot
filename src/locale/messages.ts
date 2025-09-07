@@ -159,6 +159,14 @@ to unban, use command /unban username
   invalidUsername:
     "📛  Invalid username  📛\n\nPlease enter a valid username.\n\nit should be like @username. 🔢",
 
+  changeLanguage: "🌐 Change Language",
+
+  uidTutorial: "📖 UID Tutorial",
+
+  vipInfo: "💎 VIP Info",
+
+  freeChannelJoin: "🚪 Free Channel Join",
+
   banAnnouncement: `
 🚫  You were Banned and removed from channel  🚫
 for additional information contact support
@@ -175,6 +183,37 @@ Replenish to regain access. 💳
   `,
 
   userUnbanned: "✅ User {0} has been unbanned.",
+  vipServices: `
+⭕️ Free VIP Channel Services ⭕️
+
+1. Risk management and investment strategies:
+Education and solutions for reducing trading risk and optimal capital management.
+ 
+2. Comprehensive market analysis:
+Daily or weekly market analysis, including technical and fundamental analysis of cryptocurrencies.
+ 
+3. Portfolio suggestions:
+Introducing various crypto portfolios for short, mid, and long-term investment.
+ 
+4. Access to advanced trading tools:
+Introducing and teaching tools like indicators and trading strategies.
+  
+6. Private coaching or Q&A sessions:
+Private or group sessions to solve problems and strengthen members' knowledge.
+  `,
+
+  tutorialText: `
+To access signals, tutorials, and VIP support, just follow these three simple steps:
+
+1️⃣ Register on LBANK using the link below:
+
+Our exclusive invite link:
+https://www.lbank.com/login/?icode={0}
+
+2️⃣ Fund your account with at least $100 
+
+3️⃣ Log in via web or app → Click on profile → Copy your UID and send it here for verification
+  `,
 
   unbanAnnouncement:
     "🎉 You have been unbanned! You can now use the bot again.",
@@ -392,6 +431,13 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 ▸ فرمت را بررسی کنید
 ▸ با اطلاعات صحیح مجدداً ارسال کنید 📝
   `,
+  changeLanguage: "🌐 تغییر زبان",
+
+  uidTutorial: "📖 آموزش دریافت UID",
+
+  vipInfo: "💎 هر آنچه درباره VIP باید بدانید",
+
+  freeChannelJoin: "🚪 عضویت رایگان در کانال",
 
   kickedDueToBalance: `
 📉  دسترسی موقتاً محدود شد  📉
@@ -506,6 +552,40 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
   banAnnouncement: `
 🚷 شما مسدود شدید و از کانال حذف شدید  🚷
 برای کسب اطلاعات بیشتر به پشتیبانی پیام بدید
+
+  `,
+
+  vipServices: `
+⭕️ خدمات رایگان چنل VIP ⭕️
+
+1. مدیریت ریسک و استراتژی‌های سرمایه‌گذاری:
+آموزش و ارائه راهکارهایی برای کاهش ریسک معاملات و مدیریت سرمایه بهینه.
+ 
+2. تحلیل‌های جامع مارکت:
+ارائه تحلیل‌های روزانه یا هفتگی از بازار، شامل تحلیل تکنیکال و فاندامنتال ارزهای دیجیتال.
+ 
+3. پیشنهاد پرتفوی متنوع:
+معرفی ترکیب‌های مختلف ارزهای دیجیتال برای سرمایه‌گذاری کوتاه‌مدت، میان‌مدت و بلندمدت.
+ 
+4. دسترسی به ابزارهای معاملاتی پیشرفته:
+معرفی و آموزش استفاده از ابزارهایی مانند اندیکاتورها، استراتژی ترید.
+  
+6. کوچینگ خصوصی یا جلسات پرسش و پاسخ:
+ارائه جلسات خصوصی یا گروهی برای رفع اشکال و تقویت دانش اعضا.
+
+  `,
+
+  tutorialText: `
+برای دسترسی به سیگنال‌ها، آموزش‌ها و پشتیبانی VIP، فقط کافیه این سه مرحله ساده رو انجام بدی:
+
+1️⃣ ثبت نام در صرافی LBANK از طریق لینک زیر:
+
+لینک دعوت اختصاصی ما:
+https://www.lbank.com/login/?icode={0}
+
+2️⃣ حساب کاربریت ‌رو حداقل 100 دلار شارژ کن 
+
+3️⃣ از طریق نسخه وب یا اپلیکیشن وارد حساب شو → روی پروفایل کلیک کن → UID رو کپی کن و همینجا برام ارسال کن تا بررسی بشه
 
   `,
 

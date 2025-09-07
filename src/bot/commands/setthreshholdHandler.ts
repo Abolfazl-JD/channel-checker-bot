@@ -1,6 +1,7 @@
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 import { isAdmin } from "../helpers/isAdmin";
 
 export async function setthreshholdHandler(ctx: BotContext) {
@@ -11,24 +12,27 @@ export async function setthreshholdHandler(ctx: BotContext) {
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 
   const args = ctx.message.text.split(" ");
   if (args.length < 2) {
-    await ctx.reply(i18n(lang, "invalidThreshold"));
+    await ctx.reply(i18n(lang, "invalidThreshold"), mainMenuKeyboard(lang));
     return;
   }
 
   const threshold = parseInt(args[1], 10);
   if (isNaN(threshold) || threshold < 0) {
-    await ctx.reply(i18n(lang, "invalidThreshold"));
+    await ctx.reply(i18n(lang, "invalidThreshold"), mainMenuKeyboard(lang));
     return;
   }
 
   await db.setThreshold(threshold);
-  await ctx.reply(i18n(lang, "thresholdSet", threshold));
+  await ctx.reply(
+    i18n(lang, "thresholdSet", threshold),
+    mainMenuKeyboard(lang),
+  );
 
   // Notify users
   try {

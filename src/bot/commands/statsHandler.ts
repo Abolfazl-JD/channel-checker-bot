@@ -1,6 +1,7 @@
 import { BotContext } from "..";
 import * as db from "../../database";
 import { i18n } from "../../locale";
+import { mainMenuKeyboard } from "../../utils/main-menu-keyboard";
 import { isAdmin } from "../helpers/isAdmin";
 import { Readable } from "stream";
 
@@ -12,7 +13,7 @@ export async function statsHandler(ctx: BotContext) {
   const lang = user?.lang || "en";
 
   if (!isAdmin(ctx)) {
-    await ctx.reply(i18n(lang, "adminOnly"));
+    await ctx.reply(i18n(lang, "adminOnly"), mainMenuKeyboard(lang));
     return;
   }
 

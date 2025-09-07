@@ -19,6 +19,9 @@ import { unbanUserHandler } from "./commands/unbanHandler";
 import { banUserHandler } from "./commands/banUserHandler";
 import { callbackHandler } from "./commands/callbackHandler";
 import * as db from "../database";
+import { startHandler } from "./commands/startHandler";
+import { vipInfoHandler } from "./commands/vipInfoHandler";
+import { uidTutorialHandler } from "./commands/uidTutorialHandler";
 
 export type UserState =
   | "AWAITING_CONTACT"
@@ -73,6 +76,31 @@ export function createBot(token: string) {
       ctx.message.text === i18n(lang || "en", "support")
     )
       await supportHandler(ctx);
+
+    if (
+      "text" in ctx.message &&
+      ctx.message.text === i18n(lang || "en", "freeChannelJoin")
+    )
+      await startHandler(ctx, bot, userState);
+
+    if (
+      "text" in ctx.message &&
+      ctx.message.text === i18n(lang || "en", "changeLanguage")
+    )
+      await setLangHandler(ctx, userState);
+
+    if (
+      "text" in ctx.message &&
+      ctx.message.text === i18n(lang || "en", "uidTutorial")
+    )
+      await uidTutorialHandler(ctx);
+
+    if (
+      "text" in ctx.message &&
+      ctx.message.text === i18n(lang || "en", "vipInfo")
+    )
+      await vipInfoHandler(ctx);
+
     if (userState.get(ctx.from!.id) == "AWAITING_CONTACT")
       await contactHandler(ctx, userState);
 
