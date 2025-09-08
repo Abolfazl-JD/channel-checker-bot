@@ -1,3 +1,4 @@
+import path from "path";
 import { Input } from "telegraf";
 import { BotContext } from "..";
 import * as db from "../../database";
@@ -15,7 +16,7 @@ export async function uidTutorialHandler(ctx: BotContext) {
   const inviteCode = consts.inviteCode;
 
   const tutorialText = i18n(lang, "tutorialText", inviteCode);
-  const imagePath = "../../../assets/lbank_tut.jpg";
+  const imagePath = path.join(process.cwd(), "static/images/lbank_tut.jpg");
 
   try {
     await ctx.replyWithPhoto(Input.fromLocalFile(imagePath), {

@@ -76,38 +76,31 @@ export function createBot(token: string) {
       ctx.message.text === i18n(lang || "en", "support")
     )
       await supportHandler(ctx);
-
-    if (
+    else if (
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "freeChannelJoin")
     )
       await startHandler(ctx, bot, userState);
-
-    if (
+    else if (
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "changeLanguage")
     )
       await setLangHandler(ctx, userState);
-
-    if (
+    else if (
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "uidTutorial")
     )
       await uidTutorialHandler(ctx);
-
-    if (
+    else if (
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "vipInfo")
     )
       await vipInfoHandler(ctx);
-
-    if (userState.get(ctx.from!.id) == "AWAITING_CONTACT")
+    else if (userState.get(ctx.from!.id) == "AWAITING_CONTACT")
       await contactHandler(ctx, userState);
-
-    if (userState.get(ctx.from!.id) == "AWAITING_UID")
+    else if (userState.get(ctx.from!.id) == "AWAITING_UID")
       await uidHandler(ctx, bot, userState);
-
-    if (userState.get(ctx.from!.id) == "AWAITING_WELCOME")
+    else if (userState.get(ctx.from!.id) == "AWAITING_WELCOME")
       await editWelcomeHandler(ctx, userState);
   });
   return bot;
