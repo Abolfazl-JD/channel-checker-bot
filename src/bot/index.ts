@@ -86,7 +86,7 @@ export function createBot(token: string) {
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "changeLanguage")
     )
-      await setLangHandler(ctx, userState);
+      await setLangHandler(ctx, userState, false);
     else if (
       "text" in ctx.message &&
       ctx.message.text === i18n(lang || "en", "uidTutorial")
