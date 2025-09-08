@@ -27,6 +27,7 @@ export async function startHandler(
   const isUserJoined = await isChannelMember(bot, user?.telegram_id);
   if (isUserJoined) {
     await ctx.reply(i18n(lang, "alreadyJoined"), mainMenuKeyboard(lang));
+    return;
   }
 
   if (!user?.phone) {
