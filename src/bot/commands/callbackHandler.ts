@@ -13,7 +13,7 @@ export const callbackHandler = async (
   const telegramId = ctx.from!.id;
 
   if (
-    userState.get(telegramId) !== "AWAITING_START_LANGUAGE" ||
+    userState.get(telegramId) !== "AWAITING_START_LANGUAGE" &&
     userState.get(telegramId) !== "AWAITING_UPDATE_LANGUAGE"
   )
     return;
