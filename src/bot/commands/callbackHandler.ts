@@ -37,6 +37,8 @@ export const callbackHandler = async (
     if (userState.get(telegramId) === "AWAITING_START_LANGUAGE") {
       await ctx.reply(i18n(lang, "greeting"), mainMenuKeyboard(lang));
       await startHandler(ctx, bot, userState);
+    } else {
+      await ctx.reply(i18n(lang, "chooseOption"), mainMenuKeyboard(lang));
     }
   } else {
     console.error("callback query has no data");

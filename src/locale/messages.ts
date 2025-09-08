@@ -117,6 +117,10 @@ User {0} has been granted management privileges.
 All permissions activated. 🚀
   `,
 
+  chooseOption: `
+Please continue by choosing an option below 👇
+  `,
+
   invalidSupport: `
 📛  Invalid Configuration  📛
 
@@ -538,6 +542,11 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 📛  نام کاربری یافت نشد  📛
 
 کاربری با نام کاربری داده شده وجود ندارد.
+
+  `,
+
+  chooseOption: `
+لطفاً از منوی زیر یکی از گزینه‌ها را انتخاب کنید 👇
 
   `,
 
