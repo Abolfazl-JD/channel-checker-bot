@@ -4,6 +4,7 @@ import { Markup } from "telegraf";
 export async function setLangHandler(
   ctx: BotContext,
   userState: Map<number, UserState>,
+  start: boolean = true,
 ) {
   if (!ctx.chat || !ctx.message || !("text" in ctx.message)) return;
   if (ctx.chat.type !== "private") return; // Skip if not a private chat
@@ -18,5 +19,6 @@ export async function setLangHandler(
   );
 
   // Track state
-  userState.set(ctx.from!.id, "AWAITING_LANGUAGE");
+  if (start) userState.set(ctx.from!.id, "AWAITING_START_LANGUAGE");
+  else userState.set(ctx.from!.id, "AWAITING_UPDATE_LANGUAGE");
 }

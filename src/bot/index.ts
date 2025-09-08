@@ -27,7 +27,8 @@ export type UserState =
   | "AWAITING_CONTACT"
   | "AWAITING_UID"
   | "AWAITING_WELCOME"
-  | "AWAITING_LANGUAGE";
+  | "AWAITING_START_LANGUAGE"
+  | "AWAITING_UPDATE_LANGUAGE";
 
 const userState = new Map<number, UserState>();
 

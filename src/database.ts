@@ -269,6 +269,7 @@ export async function saveUser(
       `UPDATE users SET 
         telegram_id = ?, 
         username = COALESCE(?, username),
+        phone = COALESCE(?, phone),
         name = COALESCE(?, name),
         spot_balance = COALESCE(?, spot_balance),
         contract_balance = COALESCE(?, contract_balance),
@@ -279,6 +280,7 @@ export async function saveUser(
       WHERE uid = ?`,
       user.telegram_id,
       user.username,
+      user.phone,
       user.name,
       user.spot_balance,
       user.contract_balance,

@@ -12,7 +12,11 @@ export const callbackHandler = async (
 ) => {
   const telegramId = ctx.from!.id;
 
-  if (userState.get(telegramId) !== "AWAITING_LANGUAGE") return;
+  if (
+    userState.get(telegramId) !== "AWAITING_START_LANGUAGE" ||
+    userState.get(telegramId) !== "AWAITING_UPDATE_LANGUAGE"
+  )
+    return;
 
   if (ctx.callbackQuery && "data" in ctx.callbackQuery) {
     const lang = ctx.callbackQuery.data === "LANG_FA" ? "fa" : "en";
@@ -31,7 +35,8 @@ export const callbackHandler = async (
     userState.delete(telegramId);
 
     await ctx.reply(i18n(lang, "greeting"), mainMenuKeyboard(lang));
-    await startHandler(ctx, bot, userState);
+    if (userState.get(telegramId) === "AWAITING_START_LANGUAGE")
+      await startHandler(ctx, bot, userState);
   } else {
     console.error("callback query has no data");
   }
