@@ -261,6 +261,7 @@ export async function saveUser(
   const existing = await getUserByTelegramId(user.telegram_id);
 
   if (existing && user.uid) {
+    const finalPhone = existing.phone || user.phone;
     // Delete the old row with telegram_id
     await db.run(`DELETE FROM users WHERE telegram_id = ?`, user.telegram_id);
 
@@ -280,7 +281,7 @@ export async function saveUser(
       WHERE uid = ?`,
       user.telegram_id,
       user.username,
-      user.phone,
+      finalPhone,
       user.name,
       user.spot_balance,
       user.contract_balance,
