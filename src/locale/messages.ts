@@ -307,6 +307,7 @@ if you have a problem contact {0}
 ▸ /forcekick - Enforce balance requirements
 ▸ /stats - View system analytics
 ▸ /editWelcome - Customize greeting message
+▸ /editVipInfo - Customize VIP info message
 ▸ /setsupport <@username> - change support
 ▸ /ban <@username> - ban user
 ▸ /unban <@username> - unban user
@@ -628,7 +629,7 @@ https://www.lbank.com/login/?icode={0}
 ▸ /addadmin <ID> - اعطای دسترسی مدیریت
 ▸ /forcekick - اعمال نیازمندی‌های موجودی
 ▸ /stats - مشاهده آمار سیستم
-▸ /editWelcome - سفارشی‌سازی پیام خوشامد
+▸ /editVipInfo- سفارشی‌سازی پیام VIP
 ▸ /setsupport <@username> - تغییر پشتیبانی
 ▸ /ban <@username> - مسدود کردن کاربر
 ▸ /unban <@username> - رفع مسدودی کاربر
