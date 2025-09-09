@@ -322,7 +322,7 @@ export async function saveUser(
         joined = COALESCE(?, joined),
         joined_at = COALESCE(?, joined_at),
         left_at = COALESCE(?, left_at),
-        is_admin = COALESCE(?, is_admin)
+        is_admin = COALESCE(?, is_admin),
         lang = COALESCE(?, lang)
       WHERE uid = ?`,
       user.telegram_id,
