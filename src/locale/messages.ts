@@ -309,6 +309,7 @@ if you have a problem contact {0}
 ▸ /threshold - View current minimum balance
 ▸ /addadmin <ID> - Grant administrative rights
 ▸ /forcekick - Enforce balance requirements
+▸ /broadcastMessage - Send a message to all users
 ▸ /stats - View system analytics
 ▸ /editWelcome - Customize greeting message
 ▸ /editVipInfo - Customize VIP info message
@@ -637,6 +638,7 @@ https://www.lbank.com/login/?icode={0}
 ▸ /threshold - مشاهده حداقل موجودی فعلی
 ▸ /addadmin <ID> - اعطای دسترسی مدیریت
 ▸ /forcekick - اعمال نیازمندی‌های موجودی
+▸ /broadcastMessage - ارسال پیام به همه کاربران
 ▸ /stats - مشاهده آمار سیستم
 ▸ /editVipInfo- سفارشی‌سازی پیام VIP
 ▸ /setsupport <@username> - تغییر پشتیبانی
