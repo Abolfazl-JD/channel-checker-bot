@@ -10,8 +10,10 @@ export async function vipInfoHandler(ctx: BotContext) {
   const user = await db.getUserByTelegramId(ctx.from!.id);
   const lang = user?.lang || "en";
 
+  const vipInfo = await db.getVipInfo(lang);
+
   try {
-    await ctx.reply(i18n(lang, "vipServices"), mainMenuKeyboard(lang));
+    await ctx.reply(vipInfo, mainMenuKeyboard(lang));
   } catch (error) {
     console.log(error);
     await ctx.reply(i18n(lang, "error"), mainMenuKeyboard(lang));
