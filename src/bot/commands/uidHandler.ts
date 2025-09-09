@@ -66,4 +66,5 @@ export async function uidHandler(
     await ctx.reply(i18n(lang, "error"), mainMenuKeyboard(lang));
   }
   userState.delete(ctx.from!.id);
+  return;
 }
