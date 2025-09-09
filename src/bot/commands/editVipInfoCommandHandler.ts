@@ -6,7 +6,7 @@ import { isAdmin } from "../helpers/isAdmin";
 
 export async function editVipInfoCommandHandler(
   ctx: BotContext,
-  useState: Map<number, UserState>,
+  userState: Map<number, UserState>,
 ) {
   if (!ctx.chat || !ctx.message || !("text" in ctx.message)) return;
   if (ctx.chat.type !== "private") return;
@@ -20,5 +20,5 @@ export async function editVipInfoCommandHandler(
   }
 
   await ctx.reply(i18n(lang, "editVipInfoAskFa"), mainMenuKeyboard(lang));
-  useState.set(ctx.from!.id, "AWAITING_VIP_INFO_FA");
+  userState.set(ctx.from!.id, "AWAITING_VIP_INFO_FA");
 }
