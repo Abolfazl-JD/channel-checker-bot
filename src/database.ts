@@ -306,6 +306,7 @@ export async function saveUser(
 
   if (existing && user.uid) {
     const finalPhone = existing.phone || user.phone;
+    const finalLang = existing.lang || user.lang;
     // Delete the old row with telegram_id
     await db.run(`DELETE FROM users WHERE telegram_id = ?`, user.telegram_id);
 
@@ -322,6 +323,7 @@ export async function saveUser(
         joined_at = COALESCE(?, joined_at),
         left_at = COALESCE(?, left_at),
         is_admin = COALESCE(?, is_admin)
+        lang = COALESCE(?, lang)
       WHERE uid = ?`,
       user.telegram_id,
       user.username,
@@ -333,6 +335,7 @@ export async function saveUser(
       user.joined_at,
       user.left_at,
       user.is_admin,
+      finalLang,
       user.uid,
     );
   } else if (existing) {
@@ -364,7 +367,7 @@ export async function saveUser(
     // Insert new user
     return db.run(
       `INSERT INTO users (
-        telegram_id, uid, username, name, 
+        telegram_id, uid, username, name, phone, lang,
         spot_balance, contract_balance, 
         joined, joined_at, left_at, is_admin
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -372,6 +375,8 @@ export async function saveUser(
       user.uid,
       user.username,
       user.name,
+      user.phone,
+      user.lang,
       user.spot_balance || 0,
       user.contract_balance || 0,
       user.joined || 0,
