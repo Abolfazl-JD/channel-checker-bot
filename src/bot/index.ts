@@ -26,6 +26,7 @@ import { editVipInfoHandler } from "./commands/editVipInfoHandler";
 import { editVipInfoCommandHandler } from "./commands/editVipInfoCommandHandler";
 import { broadcastMessageHandler } from "./commands/broadcastMessageHandler";
 import { broadcastCommandHandler } from "./commands/broadcastCommandHandler";
+import { chatJoinRequest } from "./commands/chatJoinRequest";
 
 export type UserState =
   | "AWAITING_CONTACT"
@@ -80,6 +81,9 @@ export function createBot(token: string) {
   bot.command("help", async (ctx) => helpHandler(ctx));
   bot.command("forcekick", async (ctx) => forceKickHandler(ctx, bot));
   bot.on("callback_query", async (ctx) => callbackHandler(ctx, bot, userState));
+  bot.on("chat_join_request", async (ctx) => {
+    chatJoinRequest(ctx);
+  });
 
   bot.on("message", async (ctx) => {
     const user = await db.getUserByTelegramId(ctx.from!.id);
