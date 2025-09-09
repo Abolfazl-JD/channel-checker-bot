@@ -171,6 +171,10 @@ to unban, use command /unban username
 
   freeChannelJoin: "🚪 Free Channel Join",
 
+  broadcastAskMessage: "Please type the message you want to send to all users.",
+
+  broadcastSent: "✅ Broadcast sent to all users successfully.",
+
   banAnnouncement: `
 🚫  You were Banned and removed from channel  🚫
 for additional information contact support
@@ -451,6 +455,11 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
   vipInfo: "💎 هر آنچه درباره VIP باید بدانید",
 
   freeChannelJoin: "🚪 عضویت رایگان در کانال",
+
+  broadcastAskMessage:
+    "لطفا پیامی که می‌خواهید برای همه کاربران ارسال شود را تایپ کنید.",
+
+  broadcastSent: "✅ پیام شما با موفقیت برای همه کاربران ارسال شد.",
 
   kickedDueToBalance: `
 📉  دسترسی موقتاً محدود شد  📉
