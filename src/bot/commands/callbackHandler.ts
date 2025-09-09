@@ -34,12 +34,12 @@ export const callbackHandler = async (
 
     if (userState.get(telegramId) === "AWAITING_START_LANGUAGE") {
       await ctx.reply(i18n(lang, "greeting"), mainMenuKeyboard(lang));
+      userState.delete(telegramId);
       await startHandler(ctx, bot, userState);
     } else {
+      userState.delete(telegramId);
       await ctx.reply(i18n(lang, "chooseOption"), mainMenuKeyboard(lang));
     }
-
-    userState.delete(telegramId);
   } else {
     console.error("callback query has no data");
   }
