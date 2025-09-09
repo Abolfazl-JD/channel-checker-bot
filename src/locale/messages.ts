@@ -41,6 +41,11 @@ Verification complete! Your private invitation link:
 ⚠️ This link expires in 1 minute
   `,
 
+  approved: "🎉 Welcome aboard! You’ve been approved to join the channel 🚀",
+
+  declined:
+    " ❌ Sorry! Your request to join the channel was declined. Please check your balance and try again 💰",
+
   alreadyJoined: `
 🤝  Membership Verified  🤝
 
@@ -371,6 +376,10 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 
 از امکانات ویژه خود لذت ببرید! 🎁
   `,
+
+  approved: " عضویت شما در کانال تأیید شد 🚀",
+  declined:
+    "❌ متاسفیم! درخواست عضویت شما در کانال رد شد. لطفاً موجودی خود را بررسی کرده و دوباره تلاش کنید 💰",
 
   uidNotFound: `
 ❓  تأیید هویت ناموفق  ❓
