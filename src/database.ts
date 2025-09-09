@@ -370,7 +370,7 @@ export async function saveUser(
         telegram_id, uid, username, name, phone, lang,
         spot_balance, contract_balance, 
         joined, joined_at, left_at, is_admin
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       user.telegram_id,
       user.uid,
       user.username,
