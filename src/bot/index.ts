@@ -22,12 +22,16 @@ import * as db from "../database";
 import { startHandler } from "./commands/startHandler";
 import { vipInfoHandler } from "./commands/vipInfoHandler";
 import { uidTutorialHandler } from "./commands/uidTutorialHandler";
+import { editVipInfoHandler } from "./commands/editVipInfoHandler";
+import { editVipInfoCommandHandler } from "./commands/editVipInfoCommandHandler";
 
 export type UserState =
   | "AWAITING_CONTACT"
   | "AWAITING_UID"
   | "AWAITING_WELCOME"
   | "AWAITING_START_LANGUAGE"
+  | "AWAITING_VIP_INFO_FA"
+  | "AWAITING_VIP_INFO_EN"
   | "AWAITING_UPDATE_LANGUAGE";
 
 const userState = new Map<number, UserState>();
@@ -63,6 +67,9 @@ export function createBot(token: string) {
   bot.command("unban", async (ctx) => unbanUserHandler(ctx, bot));
   bot.command("editWelcome", async (ctx) =>
     editWelcomeCommandHandler(ctx, userState),
+  );
+  bot.command("editVipInfo", async (ctx) =>
+    editVipInfoCommandHandler(ctx, userState),
   );
   bot.command("help", async (ctx) => helpHandler(ctx));
   bot.command("forcekick", async (ctx) => forceKickHandler(ctx, bot));
@@ -101,6 +108,10 @@ export function createBot(token: string) {
       await contactHandler(ctx, userState);
     else if (userState.get(ctx.from!.id) == "AWAITING_UID")
       await uidHandler(ctx, bot, userState);
+    else if (userState.get(ctx.from!.id) == "AWAITING_VIP_INFO_FA")
+      await editVipInfoHandler(ctx, userState, "fa");
+    else if (userState.get(ctx.from!.id) == "AWAITING_VIP_INFO_EN")
+      await editVipInfoHandler(ctx, userState, "en");
     else if (userState.get(ctx.from!.id) == "AWAITING_WELCOME")
       await editWelcomeHandler(ctx, userState);
   });

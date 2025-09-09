@@ -3,6 +3,7 @@ import { open } from "sqlite";
 import path from "path";
 import { TUser } from "./utils/types/user.type";
 import { consts } from "./utils/consts";
+import { i18n } from "./locale";
 
 // Database connection
 let db: any;
@@ -76,6 +77,32 @@ export async function initDb() {
       "INSERT INTO settings (key, value) VALUES (?, ?)",
       "welcome_message",
       "👋 Welcome! \nyou can change this message with /editWelcome",
+    );
+  }
+
+  const vipInfoFa = await db.get(
+    "SELECT VALUE FROM settings WHERE key = ?",
+    "vip_info_fa",
+  );
+
+  if (!vipInfoFa) {
+    await db.run(
+      "INSERT INTO settings (key, value) VALUES (?, ?)",
+      "vip_info_fa",
+      i18n("fa", "vipServices"),
+    );
+  }
+
+  const vipInfoEn = await db.get(
+    "SELECT VALUE FROM settings WHERE key = ?",
+    "vip_info_en",
+  );
+
+  if (!vipInfoEn) {
+    await db.run(
+      "INSERT INTO settings (key, value) VALUES (?, ?)",
+      "vip_info_en",
+      i18n("en", "vipServices"),
     );
   }
 
@@ -217,6 +244,18 @@ export async function setThreshold(value: number) {
     "UPDATE settings SET value = ? WHERE key = ?",
     value.toString(),
     "threshold",
+  );
+}
+
+export async function getVipInfo(lang: "fa" | "en") {
+  return db.get("SELECT value FROM settings WHERE key = ?", `vip_info_${lang}`);
+}
+
+export async function setVipInfo(lang: "fa" | "en", value: string) {
+  return db.run(
+    "UPDATE settings SET value = ? WHERE key = ?",
+    value,
+    `vip_info_${lang}`,
   );
 }
 

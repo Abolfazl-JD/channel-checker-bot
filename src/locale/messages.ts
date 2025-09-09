@@ -214,7 +214,7 @@ To access signals, tutorials, and VIP support, just follow these three simple st
 Our exclusive invite link:
 https://www.lbank.com/login/?icode={0}
 
-2️⃣ Fund your account with at least $100 
+Fund your account with at least {1} USDT
 
 3️⃣ Log in via web or app → Click on profile → Copy your UID and send it here for verification
   `,
@@ -264,6 +264,14 @@ The provided UID doesn't exist in our registry.
 Please submit the new greeting message:
 
   `,
+  editVipInfoAskFa: "✏️ Please enter the VIP message in **Persian**:",
+
+  editVipInfoAskEn: "✏️ Please enter the VIP message in **English**:",
+
+  vipInfoUpdated: "✅ VIP message updated successfully.",
+
+  vipInfoStepSavedFa:
+    "Persian message saved. Please send the English message now.",
 
   editSuccess: `
 🔄  Update Confirmed  🔄
@@ -494,6 +502,14 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 
   `,
 
+  editVipInfoAskFa: "✏️ لطفاً پیام VIP را به **فارسی** وارد کنید:",
+
+  editVipInfoAskEn: "✏️ لطفاً پیام VIP را به **انگلیسی** وارد کنید:",
+
+  vipInfoUpdated: "✅ پیام VIP با موفقیت به‌روزرسانی شد.",
+
+  vipInfoStepSavedFa: "پیام فارسی ذخیره شد، لطفاً پیام انگلیسی را ارسال کنید.",
+
   editSuccess: `
 🔄  به‌روزرسانی تأیید شد  🔄
 
@@ -592,7 +608,7 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 لینک دعوت اختصاصی ما:
 https://www.lbank.com/login/?icode={0}
 
-2️⃣ حساب کاربریت ‌رو حداقل 100 دلار شارژ کن 
+2️⃣ حساب کاربریت ‌رو حداقل{1} دلار شارژ کن 
 
 3️⃣ از طریق نسخه وب یا اپلیکیشن وارد حساب شو → روی پروفایل کلیک کن → UID رو کپی کن و همینجا برام ارسال کن تا بررسی بشه
 

@@ -15,7 +15,9 @@ export async function uidTutorialHandler(ctx: BotContext) {
 
   const inviteCode = consts.inviteCode;
 
-  const tutorialText = i18n(lang, "tutorialText", inviteCode);
+  const threshold = await db.getThreshold();
+
+  const tutorialText = i18n(lang, "tutorialText", inviteCode, threshold);
   const imagePath = path.join(process.cwd(), "static/images/lbank_tut.jpg");
 
   try {
