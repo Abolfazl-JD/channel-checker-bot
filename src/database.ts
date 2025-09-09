@@ -248,7 +248,7 @@ export async function setThreshold(value: number) {
 }
 
 export async function getVipInfo(lang: "fa" | "en") {
-  const result = db.get(
+  const result = await db.get(
     "SELECT value FROM settings WHERE key = ?",
     `vip_info_${lang}`,
   );
