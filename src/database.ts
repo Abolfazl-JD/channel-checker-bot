@@ -68,17 +68,6 @@ export async function initDb() {
       "@admin",
     );
   }
-  const welcomeMessage = await db.get(
-    "SELECT value FROM settings WHERE key = ?",
-    "welcome_message",
-  );
-  if (!welcomeMessage) {
-    await db.run(
-      "INSERT INTO settings (key, value) VALUES (?, ?)",
-      "welcome_message",
-      "👋 Welcome! \nyou can change this message with /editWelcome",
-    );
-  }
 
   const vipInfoFa = await db.get(
     "SELECT VALUE FROM settings WHERE key = ?",
@@ -103,6 +92,32 @@ export async function initDb() {
       "INSERT INTO settings (key, value) VALUES (?, ?)",
       "vip_info_en",
       i18n("en", "vipServices"),
+    );
+  }
+
+  const welcomeMessageFa = await db.get(
+    "SELECT VALUE FROM settings WHERE key = ?",
+    "welcome_message_fa",
+  );
+
+  if (!welcomeMessageFa) {
+    await db.run(
+      "INSERT INTO settings (key, value) VALUES (?, ?)",
+      "welcome_message_fa",
+      i18n("fa", "greeting"),
+    );
+  }
+
+  const welcomeMessageEn = await db.get(
+    "SELECT VALUE FROM settings WHERE key = ?",
+    "welcome_message_en",
+  );
+
+  if (!welcomeMessageEn) {
+    await db.run(
+      "INSERT INTO settings (key, value) VALUES (?, ?)",
+      "welcome_message_en",
+      i18n("en", "greeting"),
     );
   }
 
@@ -216,21 +231,7 @@ export async function setSupportId(value: string) {
     "support",
   );
 }
-export async function getWelcomeMessage() {
-  const result = await db.get(
-    "SELECT value FROM settings WHERE key = ?",
-    "welcome_message",
-  );
-  return result.value as string;
-}
 
-export async function setWelcomeMessage(value: string) {
-  return db.run(
-    "UPDATE settings SET value = ? WHERE key = ?",
-    value,
-    "welcome_message",
-  );
-}
 export async function getThreshold() {
   const result = await db.get(
     "SELECT value FROM settings WHERE key = ?",
@@ -261,6 +262,23 @@ export async function setVipInfo(lang: "fa" | "en", value: string) {
     "UPDATE settings SET value = ? WHERE key = ?",
     value,
     `vip_info_${lang}`,
+  );
+}
+
+export async function getWelcomeMessage(lang: "fa" | "en") {
+  const result = await db.get(
+    "SELECT value FROM settings WHERE key = ?",
+    `welcome_message_${lang}`,
+  );
+
+  return result.value as string;
+}
+
+export async function setWelcomeMessage(lang: "fa" | "en", value: string) {
+  return db.run(
+    "UPDATE settings SET value = ? WHERE key = ?",
+    value,
+    `welcome_message_${lang}`,
   );
 }
 

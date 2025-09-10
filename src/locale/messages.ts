@@ -267,12 +267,6 @@ The provided UID doesn't exist in our registry.
 ▸ Contact registration support 📋
   `,
 
-  editWelcome: `
-📝  Welcome Message Configuration  📝
-
-Please submit the new greeting message:
-
-  `,
   editVipInfoAskFa: "✏️ Please enter the VIP message in **Persian**:",
 
   editVipInfoAskEn: "✏️ Please enter the VIP message in **English**:",
@@ -282,13 +276,12 @@ Please submit the new greeting message:
   vipInfoStepSavedFa:
     "Persian message saved. Please send the English message now.",
 
-  editSuccess: `
-🔄  Update Confirmed  🔄
+  editWelcomeAskFa: "📝 Please send the **Persian** welcome message first:",
 
-The welcome message has been successfully updated.
+  editWelcomeSavedFa:
+    "✅ Persian welcome message saved.\n\n📝 Now please send the **English** welcome message:",
 
-Changes take effect immediately. ⚡
-  `,
+  editWelcomeSavedEn: "✅ Welcome message updated successfully.",
 
   askContact: `
 📇  Contact Verification  📇
@@ -515,13 +508,6 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 ▸ با پشتیبانی ثبت نام تماس بگیرید 📋
   `,
 
-  editWelcome: `
-📝  تنظیم پیام خوشامد  📝
-
-لطفاً پیام خوشامد جدید را ارسال کنید:
-
-  `,
-
   editVipInfoAskFa: "✏️ لطفاً پیام VIP را به **فارسی** وارد کنید:",
 
   editVipInfoAskEn: "✏️ لطفاً پیام VIP را به **انگلیسی** وارد کنید:",
@@ -530,13 +516,12 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 
   vipInfoStepSavedFa: "پیام فارسی ذخیره شد، لطفاً پیام انگلیسی را ارسال کنید.",
 
-  editSuccess: `
-🔄  به‌روزرسانی تأیید شد  🔄
+  editWelcomeAskFa: "📝 لطفاً پیام خوش‌آمدگویی **فارسی** را ارسال کنید:",
 
-پیام خوشامد با موفقیت به‌روزرسانی شد.
+  editWelcomeSavedFa:
+    "✅ پیام خوش‌آمدگویی فارسی ذخیره شد.\n\n📝 حالا پیام خوش‌آمدگویی **انگلیسی** را ارسال کنید:",
 
-تغییرات بلافاصله اعمال می‌شوند. ⚡
-  `,
+  editWelcomeSavedEn: "✅ پیام خوش‌آمدگویی با موفقیت ذخیره شد.",
 
   askContact: `
 📇  تأیید تماس  📇
@@ -649,6 +634,7 @@ https://www.lbank.com/login/?icode={0}
 ▸ /forcekick - اعمال نیازمندی‌های موجودی
 ▸ /broadcastMessage - ارسال پیام به همه کاربران
 ▸ /stats - مشاهده آمار سیستم
+▸ /editWelcome - تغییر پیام خوش آمد
 ▸ /editVipInfo- سفارشی‌سازی پیام VIP
 ▸ /setsupport <@username> - تغییر پشتیبانی
 ▸ /ban <@username> - مسدود کردن کاربر

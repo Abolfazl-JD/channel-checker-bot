@@ -31,11 +31,12 @@ import { chatJoinRequest } from "./commands/chatJoinRequest";
 export type UserState =
   | "AWAITING_CONTACT"
   | "AWAITING_UID"
-  | "AWAITING_WELCOME"
   | "AWAITING_START_LANGUAGE"
   | "AWAITING_UPDATE_LANGUAGE"
   | "AWAITING_VIP_INFO_FA"
   | "AWAITING_VIP_INFO_EN"
+  | "AWAITING_WELCOME_FA"
+  | "AWAITING_WELCOME_EN"
   | "AWAITING_BROADCAST_MESSAGE";
 
 const userState = new Map<number, UserState>();
@@ -124,8 +125,10 @@ export function createBot(token: string) {
       await editVipInfoHandler(ctx, userState, "en");
     else if (userState.get(ctx.from!.id) === "AWAITING_BROADCAST_MESSAGE")
       await broadcastMessageHandler(ctx, userState);
-    else if (userState.get(ctx.from!.id) == "AWAITING_WELCOME")
-      await editWelcomeHandler(ctx, userState);
+    else if (userState.get(ctx.from!.id) === "AWAITING_WELCOME_FA")
+      await editWelcomeHandler(ctx, userState, "fa");
+    else if (userState.get(ctx.from!.id) === "AWAITING_WELCOME_EN")
+      await editWelcomeHandler(ctx, userState, "en");
   });
   return bot;
 }

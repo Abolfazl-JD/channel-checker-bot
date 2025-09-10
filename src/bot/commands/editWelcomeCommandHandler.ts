@@ -19,6 +19,6 @@ export async function editWelcomeCommandHandler(
     return;
   }
 
-  await ctx.reply(i18n(lang, "editWelcome"), mainMenuKeyboard(lang));
-  userState.set(ctx.from!.id, "AWAITING_WELCOME");
+  await ctx.reply(i18n(lang, "editWelcomeAskFa"), mainMenuKeyboard(lang));
+  userState.set(ctx.from!.id, "AWAITING_WELCOME_FA");
 }
