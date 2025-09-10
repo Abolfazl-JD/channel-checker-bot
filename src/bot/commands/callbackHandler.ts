@@ -33,7 +33,8 @@ export const callbackHandler = async (
     }
 
     if (userState.get(telegramId) === "AWAITING_START_LANGUAGE") {
-      await ctx.reply(i18n(lang, "greeting"), mainMenuKeyboard(lang));
+      const welcomeMessage = await db.getWelcomeMessage(lang);
+      await ctx.reply(welcomeMessage, mainMenuKeyboard(lang));
       userState.delete(telegramId);
       await startHandler(ctx, bot, userState);
     } else {
