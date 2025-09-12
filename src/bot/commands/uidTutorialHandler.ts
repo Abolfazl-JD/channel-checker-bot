@@ -13,11 +13,11 @@ export async function uidTutorialHandler(ctx: BotContext) {
   const user = await db.getUserByTelegramId(ctx.from!.id);
   const lang = user?.lang || "en";
 
-  const inviteCode = consts.inviteCode;
+  const inviteLink = consts.inviteLink;
 
   const threshold = await db.getThreshold();
 
-  const tutorialText = i18n(lang, "tutorialText", inviteCode, threshold);
+  const tutorialText = i18n(lang, "tutorialText", inviteLink, threshold);
   const imagePath = path.join(process.cwd(), "static/images/lbank_tut.jpg");
 
   try {

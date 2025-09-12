@@ -221,7 +221,7 @@ To access signals, tutorials, and VIP support, just follow these three simple st
 1️⃣ Register on LBANK using the link below:
 
 Our exclusive invite link:
-https://www.lbank.com/login/?icode={0}
+{0}
 
 Fund your account with at least {1} USDT
 
@@ -611,7 +611,7 @@ export const messages_fa: Record<keyof typeof messages_en, string> = {
 1️⃣ ثبت نام در صرافی LBANK از طریق لینک زیر:
 
 لینک دعوت اختصاصی ما:
-https://www.lbank.com/login/?icode={0}
+{0}
 
 2️⃣ حساب کاربریت ‌رو حداقل{1} دلار شارژ کن 
 

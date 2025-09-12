@@ -72,9 +72,9 @@ if [ "$goto_env_ready" != true ]; then
     [ -z "$API_SECRET" ] && echo "API_SECRET is required"
   done
 
-  while [ -z "$INVITE_CODE" ]; do
-    read -p "INVITE_CODE: " INVITE_CODE
-    [ -z "$INVITE_CODE" ] && echo "INVITE_CODE is required"
+  while [ -z "$INVITE_LINK" ]; do
+    read -p "INVITE_LINK: " INVITE_LINK
+    [ -z "$INVITE_LINK" ] && echo "INVITE_LINK is required"
   done
 
   while [ -z "$DEFAULT_THRESHOLD" ]; do
@@ -98,7 +98,7 @@ BOT_TOKEN=$BOT_TOKEN
 CHANNEL_ID=$CHANNEL_ID
 API_KEY=$API_KEY
 API_SECRET=$API_SECRET
-INVITE_CODE=$INVITE_CODE
+INVITE_LINK=$INVITE_LINK
 DEFAULT_THRESHOLD=$DEFAULT_THRESHOLD
 SYNC_INTERVAL_MINUTES=$SYNC_INTERVAL_MINUTES
 ADMIN_IDS=$ADMIN_IDS
