@@ -65,7 +65,7 @@ export async function initDb() {
     await db.run(
       "INSERT INTO settings (key, value) VALUES (?, ?)",
       "support",
-      "@admin",
+      "@Arthur_jal",
     );
   }
 
