@@ -7,74 +7,90 @@ import { isLbankReqSuccessfull } from "./bot/helpers/isLbankReqSuccessfull";
 // Sync balances from API
 export async function syncBalances(bot: Telegraf<any>) {
   try {
-    console.log(new Date().toString(), "Syncing balances...");
+    console.log(new Date().toString(), "Starting balance sync...");
 
-    // let response = { data: [] as TGetTeamListRes[] };
-    let i = 0;
-    try {
-      while (true) {
-        const res = await getTeamList(i).then((res) => {
-          if (
-            res &&
-            isLbankReqSuccessfull<TGetTeamListRes[]>(res) &&
-            res?.data &&
-            res.data.length > 0
-          ) {
-            return res;
-          } else {
-            console.log(new Date().toString(), "No data returned", i);
-            return { data: [] };
-          }
-        });
+    let start = 0;
+    let totalFetched = 0;
 
-        // Update balances for all users
-        for (const balance of res.data) {
-          try {
-            // Update user balances
-            await db.updateUserBalances(
-              balance.openId,
-              Number(balance.currencyTotalFeeAmt),
-              Number(balance.contractTotalFeeAmt),
-            );
-          } catch (error) {
-            console.error(
-              new Date().toString(),
-              `Error updating balance for UID ${balance.openId}:`,
-              error,
-            );
-          }
-        }
-        i = i + 100;
-        if (res.data.length < 100) break;
-        if (i > 10000) break;
+    while (true) {
+      let res;
+      try {
+        res = await getTeamList(start);
+      } catch (err) {
+        console.error(
+          new Date().toString(),
+          `getTeamList API error at start=${start}:`,
+          err,
+        );
+        console.log(new Date().toString(), "Retrying same page in 5s...");
+        await new Promise((r) => setTimeout(r, 5000));
+        continue; // retry same page
       }
-    } catch (e) {
-      console.log(new Date().toString(), e);
-      i = 100000;
+
+      // Handle API response
+      if (!res || !isLbankReqSuccessfull<TGetTeamListRes[]>(res)) {
+        if (res?.error_code === 10004) {
+          // Rate limit
+          await new Promise((r) => setTimeout(r, 10000));
+          continue; // retry same page
+        } else {
+          console.warn(
+            new Date().toString(),
+            `API result not successful for start=${start}:`,
+            res,
+          );
+          break;
+        }
+      }
+
+      const data = res.data || [];
+      totalFetched += data.length;
+
+      // Update balances for all users
+      for (const balance of data) {
+        try {
+          await db.updateUserBalances(
+            balance.openId,
+            Number(balance.currencyTotalFeeAmt),
+            Number(balance.contractTotalFeeAmt),
+          );
+        } catch (error) {
+          console.error(
+            new Date().toString(),
+            `Error updating balance for UID ${balance.openId}:`,
+            error,
+          );
+        }
+      }
+
+      if (data.length < 100) {
+        break;
+      }
+
+      start += 100;
     }
 
-    // Check if any joined users are now below threshold
+    // Check if any joined users are below threshold
     const users = await db.getJoinedUsers();
     const threshold = await db.getThreshold();
+    console.log(
+      new Date().toString(),
+      `Checking ${users.length} joined users against threshold ${threshold}`,
+    );
 
     for (const user of users) {
       try {
-        // Get fresh user data with updated balances
         const updatedUser = await db.getUserByTelegramId(user.telegram_id);
-
         if (updatedUser && db.getTotalBalance(updatedUser) < threshold) {
           console.log(
             new Date().toString(),
             `User ${user.telegram_id} below threshold, kicking...`,
           );
 
-          // Kick user from channel
           const kicked = await kickUserFromChannel(bot, user.telegram_id);
 
           if (kicked) {
             await db.markUserLeft(user.telegram_id);
-
-            // Notify user
             try {
               const lang = user.lang || "en";
               await bot.telegram.sendMessage(
@@ -101,7 +117,10 @@ export async function syncBalances(bot: Telegraf<any>) {
       }
     }
 
-    console.log(new Date().toString(), "Balance sync completed");
+    console.log(
+      new Date().toString(),
+      `Balance sync completed. Total users updated from API: ${totalFetched}`,
+    );
   } catch (error) {
     console.error(new Date().toString(), "Error syncing balances:", error);
   }
@@ -109,7 +128,6 @@ export async function syncBalances(bot: Telegraf<any>) {
 
 // Setup periodic balance syncing
 export function setupBalanceSync(bot: Telegraf<any>) {
-  // Schedule periodic sync using setInterval
   const interval =
     parseInt(process.env.SYNC_INTERVAL_MINUTES || "30", 10) * 60 * 1000;
 
