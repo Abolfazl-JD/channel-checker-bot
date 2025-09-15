@@ -18,11 +18,12 @@ export async function getTeamList(
 
   // Set the required parameters
   const params = {
-    startTime: currentTime - 12 * 30 * 24 * 60 * 60 * 1000,
+    startTime: 0,
     endTime: currentTime,
     start,
     pageSize,
   };
+
   let res = undefined;
   try {
     res = await sendRequest(endpoint, method, params);
